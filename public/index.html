@@ -69,6 +69,8 @@
       font-size: 0.95rem;
     }
 
+    .tab-label, .tab-count { white-space: nowrap; }
+
     .tabs, .dirs, .toolbar {
       display: flex;
       flex-wrap: wrap;
@@ -385,7 +387,15 @@
         gap: 0.5rem;
       }
       #sectionTabs { grid-template-columns: repeat(3, 1fr); }
-      #sectionTabs button { padding-left: 0.3rem; padding-right: 0.3rem; font-size: 0.85rem; }
+      #sectionTabs button {
+        flex-direction: column;
+        gap: 0.05rem;
+        min-width: 0;
+        padding: 0.45rem 0.2rem;
+        font-size: 0.85rem;
+        line-height: 1.2;
+      }
+      #sectionTabs .tab-count { font-size: 0.78rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
 
       .mode-tabs {
         grid-template-columns: 1fr 1fr;
@@ -427,9 +437,10 @@
 
       .vocab-table {
         width: 100%;
-        /* rộng hơn màn hình điện thoại một chút để vuốt ngang được;
-           cột nghĩa vẫn tự xuống dòng khi dài */
-        min-width: 40rem;
+        /* vừa khít màn hình điện thoại; cột nghĩa tự xuống dòng khi dài,
+           nên nút Xóa luôn nhìn thấy mà không cần vuốt ngang */
+        min-width: 0;
+        table-layout: auto;
       }
 
       .vocab-table .col-num,
@@ -507,11 +518,17 @@
       border-radius: 14px;
     }
     /* nút Xóa nhỏ gọn: không làm phình chiều cao hàng */
+    .vocab-table .col-del {
+      width: 1%;
+      white-space: nowrap;
+      text-align: right;
+      padding-left: 0.2rem;
+    }
     .vocab-table .del-word {
       display: inline-block;
       min-height: 0;
       height: auto;
-      margin: 0 0 0 0.45rem;
+      margin: 0;
       padding: 0 0.5rem;
       font-size: 0.7rem;
       line-height: 1.5;
@@ -565,9 +582,9 @@
     </div>
 
     <div class="tabs" id="sectionTabs">
-      <button type="button" class="active" data-section="reading">Đọc hiểu (<span id="countReading">0</span>)</button>
-      <button type="button" data-section="listening">Nghe (<span id="countListening">0</span>)</button>
-      <button type="button" data-section="mine">Của tôi (<span id="countMine">0</span>)</button>
+      <button type="button" class="active" data-section="reading"><span class="tab-label">Đọc hiểu</span> <span class="tab-count">(<span id="countReading">0</span>)</span></button>
+      <button type="button" data-section="listening"><span class="tab-label">Nghe</span> <span class="tab-count">(<span id="countListening">0</span>)</span></button>
+      <button type="button" data-section="mine"><span class="tab-label">Của tôi</span> <span class="tab-count">(<span id="countMine">0</span>)</span></button>
     </div>
 
     <div class="toolbar" id="practiceToolbar">
@@ -608,6 +625,7 @@
                 <th class="col-num">#</th>
                 <th class="col-en">English</th>
                 <th class="col-vi">Nghĩa</th>
+                <th class="col-del" id="lexiconDelTh"></th>
               </tr>
             </thead>
             <tbody id="lexiconBody"></tbody>
@@ -761,13 +779,17 @@
       }
 
       el.lexiconEmpty.classList.remove("show");
+      // chỉ hiện cột Xóa khi mục này có từ tự thêm
+      const hasDel = list.some((w) => w.id);
+      document.getElementById("lexiconDelTh").style.display = hasDel ? "" : "none";
       el.lexiconBody.innerHTML = filtered
         .map((item) => {
           const num = list.indexOf(item) + 1;
           return `<tr>
             <td class="col-num">${num}</td>
             <td class="col-en">${escapeHtml(item.en)}</td>
-            <td class="col-vi">${escapeHtml(item.vi)}${item.id ? ` <button type="button" class="del-word" data-id="${escapeHtml(item.id)}">Xóa</button>` : ""}</td>
+            <td class="col-vi">${escapeHtml(item.vi)}</td>${hasDel ? `
+            <td class="col-del">${item.id ? `<button type="button" class="del-word" data-id="${escapeHtml(item.id)}">Xóa</button>` : ""}</td>` : ""}
           </tr>`;
         })
         .join("");
