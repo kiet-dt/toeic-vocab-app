@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f8f5f" />
+  <title>Luyện từ vựng Toeic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg0: #e7f3ec;
+      --bg1: #f7fbf8;
+      --card: #ffffff;
+      --line: #c5ddd0;
+      --text: #143528;
+      --muted: #5f7a6c;
+      --accent: #1f8f5f;
+      --accent-dim: #187a50;
+      --warn: #9a6b00;
+      --bad: #c0392b;
+      --good: #0f7a4a;
+      --shadow: 0 16px 40px rgba(20, 53, 40, 0.08);
+      --radius: 18px;
+      --tap: 44px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      font-family: "Be Vietnam Pro", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 420px at 0% 0%, #c8e8d6 0%, transparent 60%),
+        radial-gradient(700px 380px at 100% 10%, #d9efe4 0%, transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x: hidden;
+    }
+
+    .wrap {
+      width: min(760px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: calc(2rem + var(--safe-top)) max(0px, var(--safe-right)) calc(3rem + var(--safe-bottom)) max(0px, var(--safe-left));
+    }
+
+    header h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(1.45rem, 5.5vw, 2.1rem);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    header p {
+      margin: 0 0 1.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .tabs, .dirs, .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 0.85rem;
+    }
+
+    button, .chip {
+      font: inherit;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 999px;
+      min-height: var(--tap);
+      padding: 0.55rem 1rem;
+      cursor: pointer;
+      transition: 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    button:hover { border-color: var(--accent); }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button.active, .chip.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.4rem 1.35rem 1.5rem;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .card.card-transition {
+      opacity: 0;
+      transform: translateY(8px) scale(0.99);
+    }
+
+    .meta {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .prompt {
+      font-size: clamp(1.2rem, 4.2vw, 1.85rem);
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 1.1rem;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .answer-row {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      font: inherit;
+      font-size: 16px; /* avoid iOS zoom on focus */
+      line-height: 1.4;
+      min-height: var(--tap);
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #f3faf6;
+      color: var(--text);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 143, 95, 0.18);
+      background: #fff;
+    }
+
+    .hint-box {
+      min-height: 1.4rem;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      letter-spacing: 0.08em;
+      color: var(--warn);
+      font-size: 0.98rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.55rem;
+      margin-top: 1rem;
+    }
+
+    .actions .primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      font-weight: 700;
+      grid-column: 1 / -1;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      display: none;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .feedback.show { display: block; }
+    .feedback.ok {
+      background: #e7f8ef;
+      border-color: #9fd9b8;
+      color: var(--good);
+    }
+    .feedback.bad {
+      background: #fdecec;
+      border-color: #f0b4b4;
+      color: var(--bad);
+    }
+    .feedback.info {
+      background: #fff6e5;
+      border-color: #ecd29a;
+      color: var(--warn);
+    }
+
+    .mode-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+    }
+
+    .mode-tabs button {
+      width: 100%;
+    }
+
+    #practicePanel.hidden,
+    #lexiconPanel.hidden,
+    .toolbar.hidden {
+      display: none !important;
+    }
+
+    .lexicon-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.1rem 1rem 1.2rem;
+    }
+
+    .lexicon-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .lexicon-head h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .lexicon-count {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    #lexiconSearch {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      min-height: var(--tap);
+      padding: 0.75rem 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #f3faf6;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 0.85rem;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    #lexiconSearch:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 143, 95, 0.18);
+      background: #fff;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: min(70vh, 640px);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .vocab-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    .vocab-table th,
+    .vocab-table td {
+      padding: 0.65rem 0.7rem;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .vocab-table th {
+      position: sticky;
+      top: 0;
+      background: #eaf6ef;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      z-index: 1;
+    }
+
+    .vocab-table tr:last-child td { border-bottom: none; }
+    .vocab-table tbody tr:nth-child(even) { background: #f7fbf8; }
+    .vocab-table .col-num {
+      width: 2.4rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .vocab-table .col-en {
+      font-weight: 600;
+      white-space: nowrap;
+      min-width: 7rem;
+    }
+    .vocab-table .col-vi {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .lexicon-empty {
+      display: none;
+      text-align: center;
+      color: var(--muted);
+      padding: 1.25rem 0.5rem;
+      font-size: 0.92rem;
+    }
+
+    .lexicon-empty.show { display: block; }
+
+    @media (min-width: 641px) {
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .actions .primary { grid-column: auto; }
+      input[type="text"],
+      #lexiconSearch { font-size: 1.1rem; }
+      .mode-tabs {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .mode-tabs button { width: auto; }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        width: calc(100% - 1rem);
+        padding-top: calc(1rem + var(--safe-top));
+        padding-bottom: calc(1.5rem + var(--safe-bottom));
+      }
+
+      .tabs, .toolbar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+      }
+
+      .mode-tabs {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .tabs button,
+      .toolbar button,
+      .actions button {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.92rem;
+        padding: 0.65rem 0.7rem;
+      }
+
+      .mode-tabs button {
+        font-size: 0.82rem;
+        padding: 0.6rem 0.4rem;
+      }
+
+      .card {
+        padding: 1.1rem 1rem 1.2rem;
+        border-radius: 16px;
+      }
+
+      .meta {
+        font-size: 0.8rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .prompt {
+        margin-bottom: 1rem;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .vocab-table {
+        width: max-content;
+        min-width: 100%;
+      }
+
+      .vocab-table .col-num,
+      .vocab-table th.col-num {
+        display: none;
+      }
+
+      .vocab-table .col-en {
+        white-space: nowrap;
+        min-width: 8rem;
+        font-size: 0.88rem;
+      }
+
+      .vocab-table .col-vi {
+        min-width: 14rem;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: normal;
+        font-size: 0.88rem;
+      }
+
+      .vocab-table th,
+      .vocab-table td {
+        padding: 0.5rem 0.45rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      header h1 { font-size: 1.3rem; }
+      .tabs button,
+      .toolbar button,
+      .actions button {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.45rem;
+      }
+      .mode-tabs button {
+        font-size: 0.74rem;
+        padding: 0.55rem 0.3rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card {
+        transition: none !important;
+      }
+    }
+
+    /* ---------- Thêm từ ---------- */
+    .mode-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    #addPanel.hidden { display: none !important; }
+    .add-form { display: grid; gap: 0.5rem; }
+    .add-form label { font-size: 0.85rem; color: var(--muted); margin-top: 0.35rem; }
+    input[type="password"] {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.4;
+      min-height: var(--tap);
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #f3faf6;
+      color: var(--text);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input[type="password"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 143, 95, 0.18);
+      background: #fff;
+    }
+    .add-form .primary {
+      margin-top: 0.8rem;
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      font-weight: 700;
+      border-radius: 14px;
+    }
+    .del-word {
+      display: inline-flex;
+      min-height: 0;
+      margin-left: 0.4rem;
+      padding: 0.1rem 0.55rem;
+      font-size: 0.75rem;
+      color: var(--bad);
+      border-color: #efc4be;
+      vertical-align: baseline;
+    }
+
+    /* ---------- Tài khoản ---------- */
+    .account-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin: -0.4rem 0 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .account-bar b { color: var(--text); }
+    .account-bar button { font-size: 0.85rem; padding: 0.3rem 0.95rem; }
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+    .auth-tabs button { font-size: 0.85rem; padding: 0.5rem 0.3rem; }
+    .auth-note { color: var(--muted); font-size: 0.85rem; line-height: 1.45; margin: 0 0 0.6rem; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Luyện từ vựng Toeic</h1>
+      <div class="account-bar" id="accountBar"></div>
+    </header>
+
+    <div class="mode-tabs" id="modeTabs">
+      <button type="button" class="active" data-mode="practice">Luyện tập</button>
+      <button type="button" data-mode="lexicon">Tổng hợp từ vựng</button>
+      <button type="button" data-mode="add">Thêm từ</button>
+    </div>
+
+    <div class="tabs" id="sectionTabs">
+      <button type="button" class="active" data-section="reading">Đọc hiểu (<span id="countReading">0</span>)</button>
+      <button type="button" data-section="listening">Nghe (<span id="countListening">0</span>)</button>
+    </div>
+
+    <div class="toolbar" id="practiceToolbar">
+      <button type="button" id="btnShuffle">Xáo trộn lại</button>
+    </div>
+
+    <div id="practicePanel">
+      <div class="card" id="practiceCard">
+        <div class="meta">
+          <span id="progress">1 / 1</span>
+        </div>
+        <div class="prompt" id="prompt">—</div>
+        <div class="answer-row">
+          <input id="answer" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Nhập đáp án..." />
+          <div class="hint-box" id="hintBox"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="primary" id="btnCheck">Kiểm tra</button>
+          <button type="button" id="btnHint">Gợi ý</button>
+          <button type="button" id="btnShow">Xem đáp án</button>
+          <button type="button" id="btnNext">Từ tiếp theo</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
+
+    <div id="lexiconPanel" class="hidden">
+      <div class="lexicon-card">
+        <div class="lexicon-head">
+          <h2 id="lexiconTitle">Từ vựng đọc hiểu</h2>
+          <span class="lexicon-count" id="lexiconCount">0 từ</span>
+        </div>
+        <input id="lexiconSearch" type="search" inputmode="search" enterkeyhint="search" placeholder="Tìm từ Anh hoặc nghĩa Việt..." autocomplete="off" />
+        <div class="table-wrap">
+          <table class="vocab-table">
+            <thead>
+              <tr>
+                <th class="col-num">#</th>
+                <th class="col-en">English</th>
+                <th class="col-vi">Nghĩa</th>
+              </tr>
+            </thead>
+            <tbody id="lexiconBody"></tbody>
+          </table>
+          <div class="lexicon-empty" id="lexiconEmpty">Không tìm thấy từ nào.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="addPanel" class="hidden">
+      <div class="lexicon-card">
+
+        <!-- Chưa đăng nhập: đăng nhập / đăng ký / quên mật khẩu -->
+        <div id="authBox">
+          <div class="lexicon-head">
+            <h2 id="authTitle">Đăng nhập</h2>
+          </div>
+          <p class="auth-note">Mỗi tài khoản có danh sách từ riêng, chỉ bạn xem được.</p>
+          <div class="auth-tabs" id="authTabs">
+            <button type="button" class="active" data-auth="login">Đăng nhập</button>
+            <button type="button" data-auth="register">Đăng ký</button>
+            <button type="button" data-auth="reset">Quên mật khẩu</button>
+          </div>
+          <form id="authForm" class="add-form" autocomplete="off">
+            <label for="authUser">Tên tài khoản</label>
+            <input id="authUser" type="text" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" placeholder="vd: linh.nguyen" />
+            <label for="authPass" id="authPassLabel">Mật khẩu</label>
+            <input id="authPass" type="password" autocomplete="off" maxlength="100" />
+            <label for="authPass2" id="authPass2Label" class="hidden">Nhập lại mật khẩu</label>
+            <input id="authPass2" type="password" autocomplete="off" maxlength="100" class="hidden" />
+            <button type="submit" class="primary" id="btnAuth">Đăng nhập</button>
+            <div class="feedback" id="authMsg"></div>
+          </form>
+        </div>
+
+        <!-- Đã đăng nhập: thêm từ -->
+        <div id="addBox" class="hidden">
+          <div class="lexicon-head">
+            <h2>Thêm từ mới</h2>
+            <span class="lexicon-count">Vào mục: <b id="addSectionLabel">Đọc hiểu</b></span>
+          </div>
+          <form id="addForm" class="add-form" autocomplete="off">
+            <label for="addEn">Từ tiếng Anh</label>
+            <input id="addEn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="vd: Inquiry" maxlength="100" />
+            <label for="addVi">Nghĩa</label>
+            <input id="addVi" type="text" autocomplete="off" placeholder="vd: (n): sự điều tra, yêu cầu thông tin" maxlength="500" />
+            <button type="submit" class="primary" id="btnAdd">Lưu từ</button>
+            <div class="feedback" id="addMsg"></div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DATA = {"reading": [{"en": "Inquiry", "vi": "(n): sự điều tra, thẩm vấn, yêu cầu (thông tin)"}, {"en": "Substantial", "vi": "(adj): đáng kể, lớn lao, quan trọng = considerable = significant"}, {"en": "Employment", "vi": "(n): công việc"}, {"en": "Relevant to", "vi": "+ N: liên quan đến"}, {"en": "Suburban", "vi": "(n,adj): (thuộc) ngoại ô"}, {"en": "Outsell", "vi": "(v): bán chạy hơn"}, {"en": "Obstruct the view", "vi": "cản trở tầm nhìn"}, {"en": "Vent", "vi": "(n,v): lỗ thông khí, xả (khí, cảm xúc)"}, {"en": "Ventilation", "vi": "(n): hệ thống thông gió"}, {"en": "Interior", "vi": "(n,adj): (phần) bên trong (nhà)"}, {"en": "Compliment", "vi": "(n,v): (sự) khen ngợi = praise = commend"}, {"en": "Acclaim", "vi": "(n,v): (sự) khen ngợi = praise = commend"}, {"en": "Installment", "vi": "(n): khoản trả góp"}, {"en": "Accessory", "vi": "(n): phụ kiện"}, {"en": "Postpone", "vi": "(v): hoãn"}, {"en": "Vacant room", "vi": "phòng trống"}, {"en": "Water purifier", "vi": "máy lọc nước"}, {"en": "Indicate", "vi": "(v): chỉ"}, {"en": "Upon", "vi": "+ Ving: ngay sau khi"}, {"en": "Footwear", "vi": "(n): giày dép"}, {"en": "Domestic", "vi": "(adj): nội địa"}, {"en": "Comply with", "vi": "tuân thủ, tuân theo = adhere to = abide by"}, {"en": "Reimburse", "vi": "(v): Hoàn lại (tiền)"}, {"en": "Receipt", "vi": "(n): Biên lai"}, {"en": "Venue", "vi": "(n): địa điểm"}, {"en": "Harvest", "vi": "(n,v): (việc) thu hoạch, gặt (lúa)"}, {"en": "Approximate", "vi": "(v,adj): gần đúng, xấp xỉ"}, {"en": "Appropriate", "vi": "(adj): phù hợp"}, {"en": "Undergo", "vi": "(v): trải qua"}, {"en": "Furniture", "vi": "(n): nội thất"}, {"en": "Route", "vi": "(n): tuyến đường"}, {"en": "Occupy", "vi": "(v): chiếm"}, {"en": "Occupant", "vi": "(n): người cư trú, sinh sống"}, {"en": "Make a name for", "vi": "+ itself/himself/…: Tạo dựng tên tuổi"}, {"en": "Retain", "vi": "(v): giữ lại (biên lai, hóa đơn)"}, {"en": "State-of-the-art", "vi": "(adj): hiện đại, tiên tiến nhất"}, {"en": "Up-to-date", "vi": "(adj): cập nhật"}, {"en": "Out-of-date", "vi": "(adj): lỗi thời"}, {"en": "Low-interest", "vi": "(adj): lãi suất thấp"}, {"en": "Fundraise", "vi": "(v): gây quỹ"}, {"en": "Stunning", "vi": "(adj): lộng lẫy, choáng ngợp"}, {"en": "Appraise", "vi": "(v): đánh giá, thẩm định, định giá = evaluate, assess"}, {"en": "Straightforward", "vi": "(adj): trung thực, thẳng thắn, đơn giản, dễ hiểu"}, {"en": "Thereby", "vi": "(adv): nhờ đó, do đó = therefore = as a result = consequently"}, {"en": "Occasion", "vi": "(n): dịp, sự kiện"}, {"en": "Widespread", "vi": "(adj): lan rộng, phổ biến"}, {"en": "Perishable", "vi": "(adj): dễ hỏng, thối (thực phẩm)"}, {"en": "Fragile", "vi": "(adj): dễ vỡ"}, {"en": "Profound", "vi": "(adj): sâu sắc > deep"}, {"en": "Nasal spray", "vi": "thuốc xịt mũi"}, {"en": "Prescription", "vi": "(n): đơn thuốc"}, {"en": "Prescribe", "vi": "(v): kê đơn thuốc; quy định"}, {"en": "Congestion", "vi": "(n): tắc nghẽn"}, {"en": "Complaint", "vi": "(n): sự phàn nàn, sự khiếu nại, đơn khiếu nại"}, {"en": "Antique", "vi": "(n): đồ cổ"}, {"en": "Exchange", "vi": "(n,v): trao đổi, sàn giao dịch (stock exchange: sàn giao dịch chứng khoán)"}, {"en": "stock", "vi": "(n): cổ phiếu"}, {"en": "Retail", "vi": "(n,v): (sự) bán lẻ"}, {"en": "Retailer", "vi": "(n): nhà bán lẻ"}, {"en": "Sudden", "vi": "(adj): đột ngột"}, {"en": "Projector", "vi": "(n): máy chiếu"}, {"en": "Demolish", "vi": "(v): phá hủy, đánh đổ"}, {"en": "Depart", "vi": "(v): khởi hành (tàu, máy bay)"}, {"en": "Appliance", "vi": "(n): thiết bị, đồ dùng"}, {"en": "Grocery", "vi": "(n): cửa hàng tạp hóa"}, {"en": "Interpreter", "vi": "(n): phiên dịch viên"}, {"en": "Sustainable", "vi": "(adj): bền vững"}, {"en": "Plant", "vi": "(n): nhà máy, xí nghiệp"}, {"en": "Running at full capacity", "vi": "hoạt động hết công suất"}, {"en": "Test drive", "vi": "(n): lái thử"}, {"en": "Appoint", "vi": "(v): bổ nhiệm, hẹn"}, {"en": "Dinosaur fossil", "vi": "(n): hóa thạch khủng long"}, {"en": "Profitable", "vi": "(adj): có lợi, có lãi"}, {"en": "Coordinate", "vi": "(v): phối hợp, điều phối"}, {"en": "Enclose", "vi": "(v): gửi kèm, đi kèm (phong bì,...), đóng, bao bọc kín"}, {"en": "Rewarding", "vi": "(adj): bổ ích"}, {"en": "Sincere", "vi": "(adj): chân thành; sincerely apologize: xin lỗi chân thành"}, {"en": "Steady", "vi": "(adj,v): (làm cho) vững chắc, ổn định, đều đặn, kiên định (= consistent), điềm tĩnh"}, {"en": "Practical", "vi": "(adj): thiết thực, có ích"}, {"en": "Cleanser", "vi": "(n): chất tẩy rửa"}, {"en": "Odor", "vi": "(n): mùi ~ smell"}, {"en": "Reasonable", "vi": "(adj): hợp lý, chấp nhận được"}, {"en": "Diligent", "vi": "(adj): cần cù, siêng năng"}, {"en": "Consent to", "vi": "+ N: đồng ý với… = accept + N/Ving"}, {"en": "Exclusive", "vi": "(adj): riêng biệt, độc quyền, dành riêng"}, {"en": "Inclusive", "vi": "(adj): bao gồm, kể cả, không trừ cái gì"}, {"en": "Exclude", "vi": "(v): loại trừ, ngăn chặn"}, {"en": "Lead to", "vi": "+ N/Ving: dẫn đến"}, {"en": "Due to", "vi": "+ N/Ving: bởi vì, do"}, {"en": "Companion", "vi": "(n): người bạn"}, {"en": "Arise", "vi": "(v): phát sinh"}, {"en": "Isolate", "vi": "(v): cô lập, cách ly"}, {"en": "Impair", "vi": "(v): làm suy yếu, hư hỏng"}, {"en": "Tolerate", "vi": "(v): chịu (lỗi, đau)"}, {"en": "As of", "vi": "kể từ, tính từ (+ thời điểm)"}, {"en": "Formerly", "vi": "(adv): trước đây"}, {"en": "Finance", "vi": "(n/v): tài chính / cấp tiền"}, {"en": "Delegate", "vi": "(n,v): giao phó = assign = entrust = appoint = designate = authorize"}, {"en": "Urge", "vi": "(v): thúc giục"}, {"en": "Door-to-door", "vi": "(adj): đến từng nhà"}, {"en": "Restricted to", "vi": "+ N (time): giới hạn trong…"}, {"en": "Allowed to", "vi": "+ V: cho phép làm"}, {"en": "The first step to", "vi": "+ N/Ving: bước đầu tiên để"}, {"en": "Precision", "vi": "(n): độ chính xác"}, {"en": "State", "vi": "(v): tuyên bố, nói rõ"}, {"en": "So long as", "vi": "+ clause: miễn là, với điều kiện là = as long as"}, {"en": "The press", "vi": "(n): báo chí"}, {"en": "Mutual", "vi": "(adj): lẫn nhau, của nhau, với nhau, … nhau; We are mutual friends We help mutually"}, {"en": "Whereas", "vi": "+ clause: trong khi đó, ngược lại"}, {"en": "Ramp", "vi": "(n): con dốc = slope"}, {"en": "Elect", "vi": "(v): bầu"}, {"en": "Bribe", "vi": "(n,v): (vật) đút lót, hối lộ"}, {"en": "Account for", "vi": "tính đến; giải thích"}, {"en": "Subject to", "vi": "+ N/Ving: phụ thuộc vào = depend on = rely on"}, {"en": "Precedent", "vi": "(n): tiền lệ"}, {"en": "Particular", "vi": "(adj): đặc biệt, cụ thể"}, {"en": "Concentration", "vi": "(n): mật độ"}, {"en": "Bid", "vi": "(n,v): đấu giá"}, {"en": "Resign", "vi": "(v): từ chức"}, {"en": "Day-to-day", "vi": "(adj): hàng ngày"}, {"en": "Violate", "vi": "(v): vi phạm, violation (n)"}, {"en": "Official", "vi": "(n): quan chức, viên chức"}, {"en": "Consequently", "vi": "(adv): do đó = therefore = as a result = accordingly"}, {"en": "The Administration", "vi": "(n): chính phủ"}, {"en": "Venture", "vi": "(n): dự án kinh doanh"}, {"en": "Take over", "vi": "tiếp quản"}, {"en": "Form", "vi": "(n,v): hình dạng, tạo thành, thành lập"}, {"en": "House", "vi": "(v): chứa đựng"}, {"en": "Fabric", "vi": "(n): vải"}, {"en": "Sew", "vi": "(v): may, khâu"}, {"en": "Recall", "vi": "(v): thu hồi, gọi lại, đòi lại, lấy lại, triệu hồi, nhớ lại, gợi nhớ"}, {"en": "Out of order", "vi": "hỏng = out of service"}, {"en": "Dominate", "vi": "(v): thống trị, áp đảo ~ overwhelm"}, {"en": "Involve", "vi": "(v): (+ doing st) đòi hỏi, cần có / (+ N…) bao gồm, (be involved in): tham gia"}, {"en": "Nominee", "vi": "(n): người được bổ nhiệm, đề cử"}, {"en": "Turnout", "vi": "(n): số người tham gia"}, {"en": "Devote", "vi": "(v): hiến dâng, dành… = dedicate"}, {"en": "Categorical", "vi": "(adj): dứt khoát, rõ ràng, minh bạch, tuyệt đối"}, {"en": "Slight", "vi": "(adj): mỏng manh, nhỏ, nhẹ, không đáng kể = thin; (n,v): coi thường, xem nhẹ"}, {"en": "Thorough", "vi": "(adj): cẩn thận, kỹ lưỡng = cautious = careful"}, {"en": "Utilize", "vi": "(v): sử dụng, tận dụng"}, {"en": "Refreshment", "vi": "(n): đồ ăn/uống nhẹ"}, {"en": "Autograph", "vi": "(n): chữ ký của người nổi tiếng # signature: chữ ký trong giấy tờ"}, {"en": "Solicit", "vi": "(v): gạ gẫm, níu kéo, nài xin"}, {"en": "Cater", "vi": "(v): cung cấp, đáp ứng, phục vụ"}, {"en": "Can", "vi": "(v): đóng hộp"}, {"en": "Feature", "vi": "(v): đưa ra, bao gồm"}, {"en": "Suspend", "vi": "(v): treo, tạm ngưng, đình chỉ"}, {"en": "Pending", "vi": "(adj): chưa quyết định, chưa giải quyết, chưa xử"}, {"en": "In-person", "vi": "(adj): trực tiếp"}, {"en": "Institute", "vi": "(n,v): học viện/ ban hành"}, {"en": "Streamline", "vi": "(v): cải tiến, tối ưu"}, {"en": "Thoughtful", "vi": "(adj): quan tâm, chu đáo, sâu sắc"}, {"en": "In favor of", "vi": "ủng hộ, tán thành"}, {"en": "Carry on", "vi": "tiếp tục = continue = go on"}, {"en": "Carry out", "vi": "tiến hành = conduct = implement = perform"}, {"en": "Align with", "vi": "phù hợp"}, {"en": "Usher", "vi": "(n,v): người dẫn chỗ, dẫn…đi…"}, {"en": "Volume", "vi": "(n): số/khối/dung/âm lượng, Sách"}, {"en": "Frustrate", "vi": "(v): làm bực, nản"}, {"en": "Chronologic", "vi": "(adj): theo thứ tự thời gian"}, {"en": "Allowance", "vi": "(n): tiền trợ cấp ~ grant ~ pension: lương hưu, tiền trợ cấp"}, {"en": "Strongly", "vi": "rất, nhiều = greatly = heavily = remarkably = highly"}, {"en": "Cushion", "vi": "(n,v): cái nệm, nâng niu, làm nhẹ đi"}, {"en": "Costume", "vi": "(n): trang phục (biểu diễn) # garment"}, {"en": "Bind", "vi": "(v): ràng buộc, trói, buộc (cả đen và bóng)"}, {"en": "Terminal", "vi": "(n): trạm cuối, ga cuối"}, {"en": "Fiber", "vi": "(n): sợi"}, {"en": "Earring", "vi": "(n): khuyên tai"}, {"en": "Necklace", "vi": "(n): dây chuyền đeo cổ"}, {"en": "Loose-fitting", "vi": "(adj): rộng"}, {"en": "Sonographer", "vi": "(n): kỹ thuật viên siêu âm"}, {"en": "Diabetic", "vi": "(adj/n): tiểu đường"}, {"en": "Fast", "vi": "(v/n): nhịn ăn, kiêng ăn, ăn chay"}, {"en": "Issue", "vi": "(n): số báo"}, {"en": "Check", "vi": "(n): séc"}, {"en": "Lend", "vi": "(v): cho vay"}, {"en": "Expenditure", "vi": "(n): (khoản) chi tiêu = spending = disbursement"}, {"en": "Expend", "vi": "(v): tiêu, tiêu dùng"}, {"en": "Noted", "vi": "(adj): nổi tiếng"}, {"en": "Commit", "vi": "(v): cam kết, phạm tội (commit theft / murder)"}, {"en": "Administrative", "vi": "(adj): hành chính, quản lý"}, {"en": "Administration", "vi": "(n): sự quản lý, the Administration: chính phủ"}, {"en": "Vested", "vi": "(adj): có quyền"}, {"en": "Integral", "vi": "(adj): không thể thiếu = essential = crucial"}, {"en": "On hand", "vi": "(adj): có sẵn"}, {"en": "Impose", "vi": "(v): áp đặt"}, {"en": "Reconcile", "vi": "(v): đối chiếu"}, {"en": "Purse", "vi": "(n): túi xách"}, {"en": "Upside down", "vi": "(adv): lộn ngược"}, {"en": "Prop", "vi": "(v): kê, dựng cho đứng"}, {"en": "Inquire", "vi": "(v): điều tra, hỏi thông tin"}, {"en": "Faucet", "vi": "(n): vòi nước (Mỹ) = tap (Anh)"}, {"en": "Disclose", "vi": "(v): tiết lộ, vạch trần = reveal = expose"}, {"en": "Timepiece", "vi": "(n): đồng hồ, thiết bị đo giờ = clock"}, {"en": "While", "vi": "(adv): mặc dù (= although)"}, {"en": "Name", "vi": "chỉ định, bổ nhiệm (= designate)"}, {"en": "Oversee", "vi": "(v): giám sát = supervise = monitor"}, {"en": "On account of", "vi": "bởi vì (= due to, because of)"}, {"en": "Dependable", "vi": "(adj): đáng tin cậy (= reliable)"}, {"en": "Comprise", "vi": "bao gồm (= include, consist of, contain, involve)"}, {"en": "Speech", "vi": "(n): bài phát biểu, bài giảng (= presentation, lecture, address)"}, {"en": "Turn out", "vi": "tham gia (= participate in = take part in = attend = engage = join = be involved in)"}, {"en": "Acquire", "vi": "(v): đạt được, có được (= obtain, attain, secure, accomplish)"}, {"en": "Circumstance", "vi": "(n): hoàn cảnh, tình huống (= situation)"}, {"en": "Possess", "vi": "(v): có, sở hữu (= have, own)"}, {"en": "Proceed", "vi": "(v): tiếp tục, tiến hành (= continue, go ahead)"}, {"en": "Principal", "vi": "(adj): chính, chủ yếu (= primary)"}, {"en": "A and B alike", "vi": "cả A và B (= Both A and B)"}, {"en": "Evenly", "vi": "(adv): đều, ngang bằng (= equally = regularly = consistently = steadily)"}, {"en": "Finally", "vi": "(adv): cuối cùng (= ultimately, eventually)"}, {"en": "An assortment of", "vi": "một loạt, nhiều loại (= an array of = a variety of = a diversity of = a range of = a selection of)"}, {"en": "Vow", "vi": "(n,v): (lời) thề, tuyên thệ (= swear)"}, {"en": "Magnificent", "vi": "(adj): cực đẹp, tráng lệ, lộng lẫy (= gorgeous, splendid)"}, {"en": "Baggage", "vi": "(n): hành lý (= luggage)"}, {"en": "Contingent on", "vi": "phụ thuộc vào (= dependent on)"}, {"en": "Contamination", "vi": "(n): sự ô nhiễm (= pollution)"}, {"en": "Imply", "vi": "(v): hàm ý, ngụ ý"}, {"en": "Reputation", "vi": "(n): danh tiếng"}, {"en": "Substitute", "vi": "(n/v): (người/vật) thay thế"}, {"en": "Demonstrate", "vi": "(v): chứng minh, trình bày"}, {"en": "Party", "vi": "(n): bên, người tham gia, đảng phái"}, {"en": "Assure", "vi": "(v): bảo đảm, cam đoan"}, {"en": "Obligate", "vi": "(v): bắt buộc"}, {"en": "Compete", "vi": "(v): cạnh tranh"}, {"en": "Get in touch", "vi": "(v): liên hệ, liên lạc"}, {"en": "Hold", "vi": "(v): tổ chức"}, {"en": "Accommodate", "vi": "(v): đáp ứng, chu cấp, cung cấp"}, {"en": "Accommodation", "vi": "(n): chỗ ở, nơi ở"}, {"en": "Stay on top of", "vi": "(v): hiểu được, nắm được"}, {"en": "Bring in", "vi": "(v): thuê, tuyển dụng = hire = recruit = employ"}, {"en": "Glimpse", "vi": "(n): cái nhìn lướt qua"}, {"en": "Recur", "vi": "(v): lặp lại, diễn ra lại"}, {"en": "Recurrence", "vi": "(n): sự lặp lại, sự tái diễn"}, {"en": "Initiative", "vi": "(n): sáng kiến"}, {"en": "Appreciate", "vi": "(v): trân trọng, đánh giá cao"}, {"en": "Reinforce", "vi": "(v): củng cố, tăng cường = enhance = strengthen"}, {"en": "Facilitate", "vi": "(v): tạo điều kiện, làm cho thuận lợi"}, {"en": "Petition", "vi": "(n,v): (đơn) xin, kiến nghị"}, {"en": "Register", "vi": "(n,v): (sổ) đăng ký; quầy thu ngân = checkout"}, {"en": "Revolution", "vi": "(n): cuộc cách mạng; (v): n + ize: cách mạng hóa"}, {"en": "Proof", "vi": "(v): hiệu đính (dạng rút gọn của proofread)"}, {"en": "Revise", "vi": "(v): viết lại, sửa lại"}, {"en": "Hesitate", "vi": "(v): lưỡng lự, ngập ngừng, do dự"}, {"en": "Look up to", "vi": "(v): ngưỡng mộ"}, {"en": "Compensate", "vi": "(v): đền bù, bù đắp"}, {"en": "Look forward to", "vi": "(v): mong đợi, mong chờ"}, {"en": "Look to", "vi": "(v): dựa dẫm"}, {"en": "Bear", "vi": "(v): chịu đựng"}, {"en": "Comfort", "vi": "(v): an ủi, dỗ dành"}, {"en": "Mandatory", "vi": "(adj): bắt buộc"}, {"en": "Merchant", "vi": "(n): thương gia"}, {"en": "Merchandise", "vi": "(n,v): hàng hóa, buôn bán"}, {"en": "Stationery", "vi": "(n): văn phòng phẩm"}, {"en": "Sufficient", "vi": "(adj): đầy đủ"}, {"en": "Inventory", "vi": "(n,v): (sự) kiểm kê, hàng hóa tồn kho"}, {"en": "Compile", "vi": "(v): tập hợp, thu thập = assemble"}, {"en": "Rectify", "vi": "(v): sửa chữa, khắc phục = fix = repair = mend = correct"}, {"en": "Liability", "vi": "(n): trách nhiệm (pháp lý) = responsibility"}, {"en": "Discrepancy", "vi": "(n): sự khác biệt, không khớp"}, {"en": "Tedious", "vi": "(adj): nhàm chán (do kéo dài hoặc lặp đi lặp lại)"}, {"en": "Adjust", "vi": "(v): điều chỉnh"}, {"en": "Disturb", "vi": "(v): làm phiền"}, {"en": "Distract", "vi": "(v): làm sao nhãng, mất tập trung"}, {"en": "Dividend", "vi": "(n): cổ tức"}, {"en": "Down payment", "vi": "(n): tiền đặt cọc, tiền trả trước # deposit: tiền cọc để đặt chỗ"}, {"en": "Accumulate", "vi": "(v): tích lũy"}, {"en": "Outstanding", "vi": "(adj): chưa thanh toán"}, {"en": "Build up", "vi": "(v): tăng dần lên"}, {"en": "Turnover", "vi": "(n): doanh thu = revenue, tỷ lệ nghỉ việc"}, {"en": "Deduct", "vi": "(v): khấu trừ"}, {"en": "Aggressive", "vi": "(adj): quyết liệt, hung hăng, hiếu chiến"}, {"en": "Portfolio", "vi": "(n): danh mục vốn đầu tư"}, {"en": "Pull out", "vi": "(v): rút khỏi, rời đi, rút ra, lấy ra, kéo ra"}, {"en": "Conservative", "vi": "(adj): bảo thủ"}, {"en": "Typically", "vi": "(adv): đặc trưng, điển hình, như thường lệ"}, {"en": "Yield", "vi": "(n,v): sản lượng, sản xuất ra"}, {"en": "Adjacent", "vi": "(adj): liền kề, ngay sát"}, {"en": "Conducive", "vi": "(adj): có lợi, có ích (cho)"}, {"en": "Disrupt", "vi": "(v): làm gián đoạn = interrupt"}, {"en": "Inconsiderate", "vi": "(adj): vô tâm, thiếu ân cần, thiếu chu đáo = thoughtless; bất lịch sự = impolite"}, {"en": "Move up", "vi": "(v): thăng tiến, tiến lên"}, {"en": "Open to", "vi": "+ N/Ving (adj): cởi mở, sẵn sàng đón nhận, lắng nghe... = be willing to Vo"}, {"en": "Scrutiny", "vi": "(n): sự soi xét, xem xét kỹ lưỡng"}, {"en": "Agenda", "vi": "(n): chương trình nghị sự, những vấn đề/công việc cần bàn tại cuộc họp"}, {"en": "Progress", "vi": "(n,v): (sự) tiến hành, tiến triển"}, {"en": "Perceptive", "vi": "(adj): tinh ý, nhạy bén, có quan sát"}, {"en": "Take back", "vi": "(phr v): trả lại, rút lại (lời nói, ý kiến), đưa ai đó quay trở lại"}, {"en": "Wrinkle", "vi": "(n): nếp nhăn (trên vải, trên da)"}, {"en": "Repel", "vi": "(v): chống lại"}, {"en": "Repellent", "vi": "(n,adj): thuốc trừ sâu, gây phản cảm, kinh tởm, ghê tởm"}, {"en": "Defect", "vi": "(n,v): khuyết điểm, lỗi (sản phẩm), rời bỏ (để đến nơi khác)"}, {"en": "Compromise", "vi": "(n,v): (sự) thỏa hiệp, dàn xếp"}, {"en": "Daring", "vi": "(adj): táo bạo, liều lĩnh"}, {"en": "Majority", "vi": "(n): phần lớn, đa số"}, {"en": "Subjective", "vi": "(adj): chủ quan"}, {"en": "Appeal", "vi": "(n,v): (sức) hấp dẫn, thu hút"}, {"en": "Mixture", "vi": "(n): sự trộn lẫn, sự kết hợp, hỗn hợp"}, {"en": "Mix up", "vi": "(v): làm lộn xộn, xáo trộn"}, {"en": "Fall to", "vi": "(v): thuộc về"}, {"en": "Settle", "vi": "(V): thanh toán, trả tiền, định cư"}, {"en": "Accustom to", "vi": "+ N/Ving (v): quen với"}, {"en": "Apprentice", "vi": "(n): người học nghề # intern: thực tập sinh"}, {"en": "Culinary", "vi": "(adj): thuộc về nấu nướng, bếp núc"}, {"en": "Incorporate", "vi": "(v): kết hợp, hợp thành, sáp nhập"}, {"en": "Infux", "vi": "(n): một loạt"}, {"en": "Relinquish", "vi": "(v): từ bỏ, đầu hàng = give up = surrender"}, {"en": "Burden", "vi": "(n,v): gánh nặng, đè nặng lên (nghĩa đen & bóng)"}, {"en": "In common", "vi": "có điểm chung"}, {"en": "Elegant", "vi": "(adj): thanh lịch, tao nhã, đẹp mắt"}, {"en": "Board", "vi": "(n,v): ban quản trị, lên (tàu, máy bay, xe)"}, {"en": "Regulate", "vi": "(v): điều chỉnh, quản lý (bằng luật, quy định)"}, {"en": "Regulation", "vi": "(n): quy định"}, {"en": "Deal with", "vi": "(v): đối phó, giải quyết, xử lý"}, {"en": "Distinguish", "vi": "(v): phân biệt"}, {"en": "Equivalent", "vi": "(adj): tương đương"}, {"en": "Excursion", "vi": "(n): chuyến tham quan, dã ngoại"}, {"en": "Prospective", "vi": "(adj): sắp tới, dự kiến; tiềm năng = potential"}, {"en": "Potential", "vi": "(adj): tiềm năng, tiềm ẩn"}, {"en": "Deluxe", "vi": "(adj): cao cấp, sang trọng"}, {"en": "Directory", "vi": "(n): thư mục, danh bạ"}, {"en": "Entitle", "vi": "+ N/Ving (v): cho ai quyền được làm gì"}, {"en": "Offset", "vi": "(v): đền bù, bù đắp = compensate"}, {"en": "Economical", "vi": "(adj): tiết kiệm"}, {"en": "Economic", "vi": "(adj): thuộc về kinh tế"}, {"en": "Expense", "vi": "(n): chi phí"}, {"en": "Substance", "vi": "(n): chất (vật chất); bản chất = nature"}, {"en": "Comprehensive", "vi": "(adj): đầy đủ, toàn diện"}, {"en": "Punctual", "vi": "(adj): đúng giờ"}, {"en": "Direct", "vi": "(v, adj): chỉ đường, hướng dẫn, chỉ đạo, trực tiếp"}, {"en": "Chain", "vi": "(n): chuỗi (cửa hàng, nhà hàng)"}, {"en": "Preclude", "vi": "(v): ngăn cản, ngăn ai làm gì = prevent"}, {"en": "Quote", "vi": "(n,v): (câu) trích dẫn, (bảng) báo giá"}, {"en": "Rate", "vi": "(n): giá = price, tỷ lệ, mức độ"}, {"en": "In advance", "vi": ": trước, sớm"}, {"en": "Coincide", "vi": "(v): trùng hợp, trùng khớp"}, {"en": "Coincidence", "vi": "(n): sự trùng hợp"}, {"en": "Intention", "vi": "(n): ý định, mục đích, dự định = intent"}, {"en": "Intent", "vi": "(adj): chăm chú, hăng hái"}, {"en": "Tempt", "vi": "(v): cám dỗ, thu hút"}, {"en": "Temptation", "vi": "(n): sự cám dỗ, thu hút"}, {"en": "Dialogue", "vi": "(n): cuộc hội thoại"}, {"en": "Sell out", "vi": "(v): bán hết"}, {"en": "Separate", "vi": "(v, adj): tách ra, phân chia, chia tay, ly thân; tách biệt, riêng biệt"}, {"en": "Divorce", "vi": "(n,v): (sự) ly hôn, ly dị"}, {"en": "Representative", "vi": "(n): người đại diện"}, {"en": "Represent", "vi": "(v): thể hiện, đại diện cho"}, {"en": "Rehearsal", "vi": "(n): Buổi diễn tập, tập dượt"}, {"en": "Rehearse", "vi": "(v): diễn tập, tập dượt"}, {"en": "Disparate", "vi": "(adj): khác biệt > different"}, {"en": "Instinct", "vi": "(n): bản năng"}, {"en": "Leisure", "vi": "(n): thời gian rảnh = free time"}, {"en": "Spectrum", "vi": "(n): một loạt (khóa học, hoạt động, dịch vụ,...)"}, {"en": "Broaden", "vi": "(v): mở rộng (kiến thức, kinh nghiệm, con đường,...) = expand = widen = extend"}, {"en": "Broad", "vi": "(adj): rộng"}, {"en": "Preference", "vi": "(n): sở thích, sự ưu tiên"}, {"en": "Urgent", "vi": "(adj): khẩn cấp"}, {"en": "Preferential", "vi": "(adj): ưu tiên = priority"}, {"en": "Admire", "vi": "(v): ngưỡng mộ, khâm phục"}, {"en": "Admiration", "vi": "(n): sự ngưỡng mộ, khâm phục = look up to"}, {"en": "Criticize", "vi": "(v): phê bình, chỉ trích, chê trách"}, {"en": "Critic", "vi": "(n): nhà phê bình"}, {"en": "Criticism", "vi": "(n): sự phê bình"}, {"en": "Constitute", "vi": "(v): cấu thành, tạo thành = form"}, {"en": "Disseminate", "vi": "(v): phổ biến, truyền bá = spread; gieo rắc, rải rác = scatter"}, {"en": "In-depth", "vi": "(adj): chuyên sâu, chi tiết"}, {"en": "Investigate", "vi": "(v): điều tra"}, {"en": "Choosy", "vi": "(adj): kén chọn = picky"}, {"en": "Constant", "vi": "(adj): liên tục, không ngừng; không đổi, kiên định, trung thành = loyal, chung thủy = faithful"}, {"en": "Decisive", "vi": "(adj): quyết đoán"}, {"en": "Diagnose", "vi": "(v): chẩn đoán"}, {"en": "Diagnosis", "vi": "(n): sự chẩn đoán"}, {"en": "Catch up", "vi": "+ with (v): bắt kịp, theo kịp"}, {"en": "Aspect", "vi": "(n): khía cạnh"}, {"en": "Emphasize", "vi": "(v): nhấn mạnh"}, {"en": "Personnel", "vi": "(n): nhân viên = staff = clerk"}, {"en": "Regardless", "vi": "(adv): bất chấp, bất kể"}, {"en": "Evidence", "vi": "(n): bằng chứng < proof"}, {"en": "Evident", "vi": "(adj): rõ ràng, hiển nhiên = obvious"}, {"en": "Irritate", "vi": "(v): gây khó chịu, bực mình = annoy = bother = frustrate; gây kích ứng (da, mắt,...)"}, {"en": "Alternate", "vi": "(n,v,adj): người/vật thay thế; luân phiên, xen kẽ, thay thế"}, {"en": "Alternative", "vi": "(n,adj): lựa chọn/phương án thay thế = substitute; thay thế, khác"}, {"en": "Escort", "vi": "(n,v): (người) hộ tống, đưa đi, dẫn đi"}, {"en": "Pertinent", "vi": "(adj): liên quan = relevant = related, thích hợp = appropriate"}, {"en": "Statement", "vi": "(n): bản sao kê, bản kê khai; lời tuyên bố, phát biểu = declaration"}, {"en": "Sense", "vi": "(n): giác quan, cảm giác, nhận thức"}, {"en": "Admit", "vi": "(v): thừa nhận, cho phép vào, nhận vào"}, {"en": "Admission", "vi": "(n): sự thừa nhận, cho phép vào, nhận vào"}, {"en": "Ascertain", "vi": "(v): xác định, xác minh = determine = verify"}, {"en": "Assume", "vi": "(v): cho rằng, giả sử, thừa nhận"}, {"en": "Lease", "vi": "(n): hợp đồng thuê nhà"}, {"en": "Apprehensive", "vi": "(adj): sợ hãi, e sợ"}, {"en": "Weld", "vi": "(n,v): (mối) hàn"}, {"en": "Convention", "vi": "(n): hội nghị"}, {"en": "Reception", "vi": "(n): sự đón tiếp, tiệc chiêu đãi"}, {"en": "Evacuate", "vi": "(v): di tản, sơ tán"}, {"en": "Ordinary", "vi": "(n,adj): (điều) bình thường, thông thường"}, {"en": "Witness", "vi": "(n,v): (người/sự) làm chứng, chứng kiến; nhân chứng"}, {"en": "Superb", "vi": "(adj): tuyệt vời, xuất sắc = excellent"}, {"en": "Sacrifice", "vi": "(n, v): (sự, vật) hy sinh, hiến tế"}, {"en": "Guilty", "vi": "(adj): có tội, cảm thấy có lỗi"}, {"en": "Correspond", "vi": "(v): tương ứng, phù hợp; trao đổi thư từ"}, {"en": "Intense", "vi": "(adj): mãnh liệt, mạnh mẽ, dữ dội, khắc nghiệt"}, {"en": "Encounter", "vi": "(v): bắt gặp, tình cờ gặp; chạm trán, đụng độ, đối mặt"}, {"en": "Exempt", "vi": "(v, adj) + (sb) from: (được) miễn (thuế, khoản phí, nghĩa vụ,...)"}, {"en": "Contingency", "vi": "(n): tình huống có thể xảy ra, tình huống bất ngờ"}, {"en": "Tentative", "vi": "(adj): do dự, không chắc chắn; tạm thời, chưa chính thức"}, {"en": "prey", "vi": "(n): con mồi"}, {"en": "flee", "vi": "(v): chạy trốn, bỏ chạy, lẩn trốn = escape (trốn thoát) >< hunt"}, {"en": "Subsequently", "vi": "(adv): sau đó = after that = afterward = then"}, {"en": "Relieve", "vi": "(v): làm giảm, làm dịu (đau, căng thẳng...) = ease"}, {"en": "Relieved", "vi": "(adj): nhẹ nhõm, thanh thản"}, {"en": "Entrepreneur", "vi": "(n): doanh nhân, người khởi nghiệp"}, {"en": "Brainstorm", "vi": "(v): động não, nghĩ ra ý tưởng"}, {"en": "Prominent", "vi": "(adj): nổi bật, đáng chú ý, xuất chúng, lỗi lạc = outstanding"}, {"en": "Crew", "vi": "(n): đội, nhóm; bọn, tụi, đám"}, {"en": "Symptom", "vi": "(n): triệu chứng (bệnh)"}, {"en": "Preheat", "vi": "(n): làm nóng trước (dầu, lò, chảo,...)"}, {"en": "Carve", "vi": "(v): chạm, khắc, tạc"}, {"en": "Expedite", "vi": "(v): đẩy nhanh, xúc tiến, giải quyết nhanh (dự án, thủ tục, đơn hàng,...)"}, {"en": "Segment", "vi": "(n, v): đoạn, khúc, một phần; phân khúc (thị trường, sản phẩm, khách hàng); phân đoạn, chia (thành các phần)"}, {"en": "Defer", "vi": "(v): hoãn = postpone"}, {"en": "Provided that", "vi": "miễn là, với điều kiện là = as long as = so long as"}, {"en": "Given that", "vi": "bởi vì = seeing that = because"}, {"en": "Owing to", "vi": "vì, do = due to = because of"}, {"en": "Nevertheless", "vi": "(adv): tuy nhiên, dù vậy = however = nonetheless"}, {"en": "Even so", "vi": "tuy nhiên, dù vậy = however = nevertheless"}, {"en": "Even if", "vi": "Ngay cả khi, dù cho"}, {"en": "Enroll in", "vi": "đăng ký tham gia (khóa học, chương trình)"}, {"en": "Interrelated", "vi": "(adj): Có mối quan hệ / liên hệ mật thiết với nhau"}, {"en": "Tear down", "vi": "phá dỡ, đập bỏ = demolish; tháo dỡ (áp phích, poster, thiết bị...)"}, {"en": "Landlord", "vi": "(n): chủ nhà, chủ trọ, chủ đất (thường là người cho thuê)"}, {"en": "Moving cost", "vi": "chi phí chuyển nhà (chuyển đồ khi chuyển nhà)"}, {"en": "Misplace", "vi": "(v): để quên, để thất lạc (đồ vật); đặt nhầm (niềm tin)"}, {"en": "Exaggerate", "vi": "(v): nói quá, phóng đại, thổi phồng"}, {"en": "Cast", "vi": "(n,v): dàn diễn viên; phân vai, chọn diễn viên"}, {"en": "Overdue", "vi": "(adj): quá hạn; đáng lẽ phải xảy ra từ trước, muộn màng = belated"}, {"en": "Adopt", "vi": "(v): nhận nuôi, áp dụng, chấp nhận, thông qua"}, {"en": "Apply", "vi": "(v): áp dụng, ứng dụng = adopt"}, {"en": "Adapt to", "vi": "+ N/Ving: thích nghi, thích ứng với"}, {"en": "Indisputable", "vi": "(adj): không thể chối cãi, bàn cãi = undeniable"}, {"en": "Unprecedented", "vi": "(adj): chưa từng có tiền lệ, chưa từng có"}, {"en": "Fall behind", "vi": "tụt lại phía sau, không theo kịp; + schedule: chậm tiến độ, chậm hơn so với kế hoạch = be behind schedule"}, {"en": "Exceed", "vi": "(v): vượt quá, vượt mức"}, {"en": "Pier", "vi": "(n): bến tàu = dock, cầu tàu; trụ đỡ (cầu)"}, {"en": "Promotion code", "vi": "mã khuyến mãi, mã giảm giá"}, {"en": "Roster", "vi": "(n): bảng phân công, lịch phân công"}, {"en": "Withdraw", "vi": "(v): rút (tiền); rút lui, rút khỏi"}, {"en": "Wipe off", "vi": "lau (bàn, trán,...)"}, {"en": "Misspell", "vi": "(v): viết sai chính tả"}, {"en": "Proficient", "vi": "(adj): thành thạo, giỏi"}, {"en": "Competent", "vi": "(adj): có năng lực, đủ khả năng, đủ giỏi để làm tốt"}, {"en": "Outcome", "vi": "(n): kết quả = result; hậu quả = consequence"}, {"en": "In place of", "vi": "thay cho, thay vì = instead of"}, {"en": "Inattentive", "vi": "(adj): không tập trung, chú ý (học tập, lái xe,...)"}, {"en": "Attentive", "vi": "(adj): tập trung, chú ý; quan tâm, chu đáo = thoughtful = considerate"}, {"en": "Exquisite", "vi": "(adj): cực kỳ đẹp, cực kỳ tinh tế, tuyệt mỹ"}, {"en": "Readily", "vi": "(adv): sẵn sàng, sẵn lòng = willingly; dễ dàng = easily"}, {"en": "Ledge", "vi": "(n): bậu cửa sổ, mỏm đá (chỉ một mặt phẳng nhô ra từ vách đá, tường hoặc cửa sổ)"}, {"en": "Experiment", "vi": "(n,v): (cuộc) thí nghiệm, thử nghiệm"}, {"en": "Come up with", "vi": "nghĩ ra, nảy ra"}, {"en": "Outperform", "vi": "(v): hoạt động tốt hơn, vượt trội hơn"}, {"en": "Bargain", "vi": "(n,v): món hời = good deal; mặc cả; thương lượng = negotiate"}, {"en": "High-end", "vi": "(adj): cao cấp (điện thoại, laptop, nhà hàng...)"}, {"en": "Fabricate", "vi": "(v): chế tạo, sản xuất = manufacture; bịa đặt, bịa chuyện = invent = make up, ngụy tạo (bằng chứng)"}, {"en": "Vulnerable", "vi": "(adj): dễ bị tổn thương, dễ bị ảnh hưởng, dễ bị tấn công, tổn hại"}, {"en": "Put in order", "vi": "sắp xếp cho ngăn nắp/đúng thứ tự; chỉnh đốn, giải quyết ổn thỏa (công việc, giấy tờ...)"}, {"en": "Keynote speaker", "vi": "(n): diễn giả chính"}, {"en": "Keynote address", "vi": "(n): bài diễn văn chính"}, {"en": "Spacious", "vi": "(adj): rộng rãi, thoáng đãng"}, {"en": "Generous", "vi": "(adj): hào phóng, rộng lượng, rộng rãi"}, {"en": "Paperwork", "vi": "(n): công việc giấy tờ; thủ tục, giấy tờ hành chính"}, {"en": "Promising", "vi": "(adj): đầy hứa hẹn, đầy triển vọng"}, {"en": "Stay out of", "vi": "tránh xa, không can thiệp vào (nơi chốn, vấn đề, rắc rối...)"}, {"en": "File", "vi": "(v): nộp, đệ trình (văn kiện, thuế...) = submit; sắp xếp (tài liệu, hồ sơ...)"}, {"en": "Savory", "vi": "(n,adj): mặn (kiểu đậm đà, ngon của gia vị, thịt, xương, khác với salty mặn của muối); đồ ăn mặn"}, {"en": "Enthusiastic", "vi": "(adj): nhiệt tình, nhiệt huyết, hào hứng, hăng hái"}, {"en": "Prototype", "vi": "(n,v): (tạo) nguyên mẫu, mẫu thử"}, {"en": "Exceedingly", "vi": "(adv): cực kỳ, vô cùng = extremely"}, {"en": "Collapse", "vi": "(n,v): (sự) sụp đổ, đổ sập (tòa nhà, công trình); ngã quỵ (vì mệt, kiệt sức)"}, {"en": "Impartial", "vi": "(adj): công bằng, không thiên vị, khách quan"}, {"en": "Stimulate", "vi": "(v): kích thích (cơ thể, não bộ...); khơi dậy (sự tò mò, hứng thú...); thúc đẩy (kinh tế...)"}, {"en": "As a precaution", "vi": "để đề phòng, để phòng ngừa, để cho chắc"}, {"en": "Short-term", "vi": "(adj): ngắn hạn"}, {"en": "Erect", "vi": "(v,adj): xây dựng, dựng lên, cương lên (i know what ur thinking, dude); thẳng đứng, thẳng, dựng đứng"}, {"en": "Chore", "vi": "(n): việc vặt, việc nhà"}, {"en": "Mitigate", "vi": "(v): giảm nhẹ, làm giảm (mức độ nghiêm trọng/tác động xấu của một vấn đề, thiệt hại, rủi ro...)"}, {"en": "Confront", "vi": "(v): đối mặt, đương đầu (vấn đề, khó khăn, đối thủ...)"}, {"en": "Predator", "vi": "(n): động vật săn mồi; kẻ chuyên lợi dụng người khác"}, {"en": "Brutal", "vi": "(adj): độc ác, hung ác, tàn bạo, tàn nhẫn = cruel"}, {"en": "Incur", "vi": "(v): chịu, gánh (chịu phạt, chịu lỗ, gánh nợ...)"}, {"en": "Ambitious", "vi": "(adj): đầy tham vọng, hoài bão"}, {"en": "Appendix", "vi": "(n): phụ lục"}, {"en": "Appetizer", "vi": "(n): món khai vị = starter"}, {"en": "Bankrupt", "vi": "(n,v,adj): người phá sản, vỡ nợ; làm cho phá sản, vỡ nợ; phá sản, vỡ nợ"}, {"en": "Ballroom", "vi": "(n): phòng/sảnh khiêu vũ"}, {"en": "Banquet", "vi": "(n): tiệc lớn, yến tiệc (trang trọng)"}, {"en": "Feast", "vi": "(n,v): bữa tiệc, yến tiệc; ăn tiệc, ăn uống, thưởng thức (một bữa ăn thịnh soạn)"}, {"en": "Beforehand", "vi": "(adv): trước, trước đó = in advance = previously = earlier"}, {"en": "Biography", "vi": "(n): tiểu sử; cuốn sách, bài viết hoặc bộ phim ghi lại chi tiết toàn bộ cuộc đời của 1 nhân vật do 1 tác giả khác viết # Autobiography: tự truyện"}, {"en": "Campus", "vi": "(n): khuôn viên trường"}, {"en": "Carpenter", "vi": "(n): thợ mộc"}, {"en": "Cashier", "vi": "(n): nhân viên thu ngân"}, {"en": "Comb", "vi": "(n,v): cái lược; chải tóc"}, {"en": "Commute", "vi": "(n,v): (việc) đi lại giữa nhà và nơi làm việc/trường học"}, {"en": "Compact", "vi": "(v,adj): nén, ép; nhỏ gọn (đồ vật), ngắn gọn, súc tích"}, {"en": "Compartment", "vi": "(n): ngăn chứa đồ; khoang, toa (tàu, máy bay...); gian nhà"}, {"en": "Cosmetic", "vi": "(n,adj): (thuộc về) mỹ phẩm"}, {"en": "Courier", "vi": "(n): người giao hàng = delivery person; dịch vụ chuyển phát"}, {"en": "Cumulative", "vi": "(adj): tích lũy = accumulated, cộng dồn"}, {"en": "Debit", "vi": "(n,v): khoản ghi nợ, số tiền bị trừ; ghi nợ, trừ tiền (thường liên quan tới ngân hàng, mua sắm bằng thẻ. Vd: ngân hàng tự động trừ tiền trong thẻ khi bạn thanh toán bằng thẻ ngân hàng)"}, {"en": "Deck", "vi": "(n): boong tàu; sàn/sân gỗ ngoài trời (liền với nhà)"}, {"en": "Definite", "vi": "(adj): chắc chắn, rõ ràng, cụ thể = certain"}, {"en": "Delicate", "vi": "(adj): mỏng manh, dễ vỡ; tinh tế; nhạy cảm, tế nhị"}, {"en": "Diploma", "vi": "(n): bằng cấp (học nghề, cao đẳng) # degree: bằng cử nhân, thạc sĩ, tiến sĩ"}, {"en": "Discontinue", "vi": "(v): ngừng (sản xuất, cung cấp...)"}, {"en": "Discard", "vi": "(n,v): (đồ bị) vứt bỏ, loại bỏ"}, {"en": "Dispatch", "vi": "(n,v): (sự) gửi đi (hàng hóa, thư...); phái đi, điều động (lực lượng, người)"}, {"en": "Dose", "vi": "(n): liều, liều lượng; overdose (n,v): (sự) dùng quá liều"}, {"en": "Eligible", "vi": "(adj): đủ/đáp ứng điều kiện, tiêu chuẩn; phù hợp"}, {"en": "Exotic", "vi": "(adj): kỳ lạ, độc đáo; có nguồn gốc ngoại lai"}, {"en": "Farewell", "vi": "(n,adj): (lời) tạm biệt, (sự) chia tay (trang trọng hơn goodbye)"}, {"en": "Fare", "vi": "(n): giá, tiền vé (phương tiện công cộng, dịch vụ vận chuyển)"}, {"en": "Favorable", "vi": "(adj): thuận lợi; thiện chí, tích cực = positive"}, {"en": "Fleet", "vi": "(n): đội (phương tiện), hạm đội (tàu thuyền, tàu chiến)"}, {"en": "Franchise", "vi": "(n,v): quyền kinh doanh nhượng quyền; tác phẩm/loạt/thương hiệu (phim, game, truyện...); nhượng quyền"}, {"en": "Freight", "vi": "(n,v): hàng hóa vận chuyển = cargo = goods, phí/cước vận chuyển; vận chuyển hàng hóa = transport"}, {"en": "Gasoline", "vi": "(n): xăng = gas (Anh-Mỹ) = petrol (Anh-Anh)"}, {"en": "Grill", "vi": "(n,v): vỉ nướng, bếp nướng có vỉ; nướng trên vỉ; chất vấn, thẩm vấn = question"}, {"en": "Interrogate", "vi": "(v): thẩm vấn, chất vấn = question = grill"}, {"en": "Handbook", "vi": "(n): sổ tay, cẩm nang; tài liệu hướng dẫn = guide = manual"}, {"en": "Hospitality", "vi": "(n): lòng mến khách, sự hiếu khách; ngành dịch vụ khách sạn, nhà hàng và du lịch"}, {"en": "Hospitable", "vi": "(adj): hiếu khách, mến khách"}, {"en": "Immigrate", "vi": "(v): nhập cư (sang nước khác sống)"}, {"en": "Migrate", "vi": "(v): di cư (chuyển từ nơi này sang nơi khác)"}, {"en": "Infer", "vi": "(v): suy ra, suy luận = deduce (deduce mang nghĩa vụ án hơn)"}, {"en": "Inflate", "vi": "(v): bơm phồng, làm căng (lốp xe, bóng bay...); đội/đẩy giá lên, gây lạm phát"}, {"en": "Invaluable", "vi": "(adj): vô giá, vô cùng quý giá (tích cực) = priceless # valueless: vô giá trị (tiêu cực)"}, {"en": "Junk", "vi": "(n): rác = trash = rubbish = garbage; đồ bỏ đi, đồ vô dụng, đồ linh tinh"}, {"en": "Lifeguard", "vi": "(n): nhân viên cứu hộ ở biển, bể bơi"}, {"en": "Lounge", "vi": "(n,v): phòng chờ, khu vực thư giãn; thư giãn, nằm/ngồi nghỉ"}, {"en": "Malfunction", "vi": "(n,v): sự trục trặc, sự cố; bị trục trặc, hoạt động sai, bị lỗi"}, {"en": "Memo", "vi": "(n): bản ghi nhớ; thông báo nội bộ"}, {"en": "Merit", "vi": "(n,v): giá trị, ưu điểm; thành tích, công lao; xứng đáng được = deserve"}, {"en": "Monument", "vi": "(n): tượng đài, đài tưởng niệm; công trình kỷ niệm"}, {"en": "Morale", "vi": "(n): tinh thần = spirit; sĩ khí, nhuệ khí (chiến đấu)"}, {"en": "Nutrition", "vi": "(n): dinh dưỡng, chế độ dinh dưỡng"}, {"en": "Omit", "vi": "(v): bỏ, bỏ qua, lược bỏ; bỏ sót (vô tình hoặc cố ý)"}, {"en": "Occur", "vi": "(v): xảy ra, diễn ra, xuất hiện; + to sb: chợt lóe lên, nảy ra trong đầu (tôi, anh ấy...)"}, {"en": "Orchestra", "vi": "(n): dàn nhạc (giao hưởng)"}, {"en": "Conductor", "vi": "(n): nhạc trưởng; người soát vé"}, {"en": "Conduct", "vi": "(n,v): hành vi, cách cư xử = behavior; hạnh kiểm; tiến hành, thực hiện = carry out = perform; chỉ huy, chỉ đạo, dẫn dắt = direct"}, {"en": "Pamphlet", "vi": "(n): tờ rơi = leaflet; tập sách nhỏ, mỏng chứa thông tin về sản phẩm, dịch vụ, sự kiện,... = brochure"}, {"en": "Paperback", "vi": "(n,adj): (thuộc về) sách bìa mềm = softcover"}, {"en": "Hardcover", "vi": "(n,adj): (thuộc về) sách bìa cứng = hardback"}, {"en": "Parade", "vi": "(n,v): cuộc diễu hành; diễu hành"}, {"en": "Pastry", "vi": "(n): bánh ngọt = cake"}, {"en": "Paycheck", "vi": "(n): tiền lương"}, {"en": "Payroll", "vi": "(n): bảng lương"}, {"en": "Periodical", "vi": "(n,adj): tạp chí = magazine; định kỳ = periodic"}, {"en": "Permanent", "vi": "(adj): vĩnh viễn, mãi mãi, lâu dài"}, {"en": "Portable", "vi": "(adj): có thể mang theo, dễ di chuyển, cầm tay, xách tay, di động"}, {"en": "Pottery", "vi": "(n): đồ gốm, nghề gốm, xưởng gốm"}, {"en": "Prestigious", "vi": "(adj): danh giá; danh tiếng = renowned; có uy tín = reputable, có địa vị cao"}, {"en": "Proficiency", "vi": "(n): sự thành thạo = expertise"}, {"en": "Realtor", "vi": "(n): nhà môi giới bất động sản = real estate agent"}, {"en": "Reassure", "vi": "(v): trấn an, an ủi = comfort; làm cho yên tâm"}, {"en": "Reluctant", "vi": "(adj): miễn cưỡng, bất đắc dĩ"}, {"en": "Sculpture", "vi": "(n): tác phẩm điêu khắc, nghệ thuật điêu khắc"}, {"en": "Sculpt", "vi": "(v): điêu khắc, tạc = carve"}, {"en": "Semester", "vi": "(n): học kỳ = term"}, {"en": "Shortage", "vi": "(n): sự thiếu, sự thiếu hụt = lack"}, {"en": "Sketch", "vi": "(n,v): (bản) phác thảo, (bức) phác họa"}, {"en": "Skim", "vi": "(v): đọc lướt, đọc nhanh để nắm ý chính; hớt, vớt (bọt, mỡ...) lên khỏi bề mặt"}, {"en": "Stereo", "vi": "(n,adj): dàn âm thanh, hệ thống âm thanh; âm thanh nổi"}, {"en": "Stockbroker", "vi": "(n): nhà môi giới chứng khoán"}, {"en": "Stockholder", "vi": "(n): cổ đông = shareholder"}, {"en": "Subway", "vi": "(n): tàu điện ngầm, hệ thống tàu điện ngầm = metro; hầm đi bộ"}, {"en": "Surf", "vi": "(v): lướt (sóng; internet, web = browse)"}, {"en": "Suspicious", "vi": "(adj): đáng ngờ, khả nghi, nghi ngờ"}, {"en": "Suspect", "vi": "(n,v): nghi phạm, kẻ khả nghi; nghi ngờ (ai)"}, {"en": "Superior", "vi": "(n,adj): vượt trội hơn, tốt hơn; cấp trên"}, {"en": "Teller", "vi": "(n): giao dịch viên ngân hàng"}, {"en": "Telecommunication", "vi": "(n): viễn thông (viết tắt: telecom)"}, {"en": "Terrific", "vi": "(adj): tuyệt vời, xuất sắc = excellent = great = wonderful"}, {"en": "Toll", "vi": "(n): phí đường bộ, phí cầu đường; + booth: trạm thu phí"}, {"en": "Trademark", "vi": "(n): nhãn hiệu thương mại, thương hiệu đã đăng ký"}, {"en": "Tuition", "vi": "(n): học phí"}, {"en": "Usage", "vi": "(n): cách sử dụng; mức độ sử dụng"}, {"en": "Vase", "vi": "(n): lọ hoa, bình hoa"}, {"en": "Vend", "vi": "(v): bán (trực tiếp hoặc thông qua máy bán hàng) ~ sell"}, {"en": "Verbal", "vi": "(adj): bằng lời nói, bằng lời"}, {"en": "Wellness", "vi": "(n): sức khỏe; trạng thái khỏe mạnh"}, {"en": "Wildlife", "vi": "(n): động vật hoang dã"}, {"en": "Wool", "vi": "(n): len (làm từ lông động vật, thường là cừu)"}, {"en": "Strive", "vi": "(v): cố gắng, nỗ lực hết sức để đạt được điều gì đó"}, {"en": "Reconcile", "vi": "(v): hòa giải, làm hòa; dung hòa, cân bằng (work<>family...); đối chiếu"}, {"en": "Moderate", "vi": "(v,adj): vừa phải, ôn hòa, có chừng mực, điều độ; làm giảm, làm dịu, tiết chế"}, {"en": "Leftover", "vi": "(n,adj): (phần) thừa lại, còn lại; (số nhiều): đồ ăn thừa)"}, {"en": "Genuine", "vi": "(adj): thật, chính hãng, chính cống (sản phẩm) = authentic; thành thật, chân thật, chân thành = sincere"}, {"en": "Burdensome", "vi": "(adj): nặng nề, gây gánh nặng, phiền toái"}, {"en": "Curious", "vi": "(adj): tò mò, muốn biết, hiếu kỳ"}, {"en": "Brutal", "vi": "(adj): tàn bạo, hung ác (tính cách) = cruel = savage; khắc nghiệt, khốc liệt (thời tiết, môi trường, cạnh tranh)"}, {"en": "Embrace", "vi": "(n,v): (cái) ôm, ôm chặt = hug"}, {"en": "Bouquet", "vi": "(n): bó hoa"}, {"en": "Harbor", "vi": "(n,v): cảng, bến cảng; chứa chấp, che giấu (tội phạm...)"}, {"en": "Revoke", "vi": "(v): thu hồi, rút lại, hủy bỏ (giấy phép, quyết định...)"}, {"en": "Imitate", "vi": "(v): bắt chước, mô phỏng, làm theo (cách nói, hành động, phong cách... của người khác) = mimic"}, {"en": "Controversy", "vi": "(n): sự tranh cãi, cuộc tranh luận gay gắt"}, {"en": "Unseasonable", "vi": "(adj): trái mùa, bất thường đối với thời điểm/mùa đó = unseasonal"}, {"en": "Neglect", "vi": "(n,v): (sự) bỏ bê, lơ là, sao nhãng, không chú ý"}, {"en": "Successive", "vi": "(adj): liên tiếp, liên tục, kế tiếp nhau"}, {"en": "Consecutive", "vi": "(adj): liên tiếp, liên tục, kế tiếp nhau = successive"}, {"en": "Refrain from", "vi": "+ N/Ving: kiềm chế, tránh/không làm điều gì"}, {"en": "Eatery", "vi": "(n): quán ăn < restaurant"}, {"en": "Otherwise", "vi": "(adv): nếu không thì; mặt khác; khác"}, {"en": "Milestone", "vi": "(n): cột mốc; dấu mốc quan trọng (bóng); cột cây số (đen)"}, {"en": "Waive", "vi": "(v): miễn (khoản phí...); bỏ, từ bỏ (quyền lợi...)"}, {"en": "Phenomenon", "vi": "(n): hiện tượng"}, {"en": "Crate", "vi": "(n,v): thùng lớn / thùng hàng dùng để chứa và vận chuyển hàng hóa; đóng thùng, cho vào thùng"}, {"en": "Fountain", "vi": "(n): đài phun nước"}, {"en": "Tropical", "vi": "(adj): thuộc nhiệt đới"}, {"en": "Pantry", "vi": "(n): phòng/tủ/khu vực dùng để đựng thực phẩm, đồ dùng nhà bếp"}, {"en": "Briefcase", "vi": "(n): cặp tài liệu, cặp công sở"}, {"en": "Cartridge", "vi": "(n): hộp/lõi có thể tháo lắp và thay thế trong một thiết bị (hộp mực in, lõi lọc...)"}, {"en": "Affiliate", "vi": "(n,v): chi nhánh, đơn vị/người liên kết; người/đối tác tiếp thị liên kết; liên kết, gia nhập"}, {"en": "Accelerate", "vi": "(v): tăng tốc = speed up; đẩy nhanh, thúc đẩy = expedite"}, {"en": "Treadmill", "vi": "(n): máy chạy bộ"}, {"en": "Acknowledge", "vi": "(v): công nhận, thừa nhận, xác nhận, ghi nhận"}, {"en": "Solidarity", "vi": "(n): sự đoàn kết, tình đoàn kết"}, {"en": "Insult", "vi": "(n,v): (lời) xúc phạm, sỉ nhục, lăng mạ"}, {"en": "Disreputable", "vi": "(adj): tai tiếng, mất uy tín, có tiếng xấu"}, {"en": "Dumpling", "vi": "(n): bánh bao"}, {"en": "Vanish", "vi": "(v): biến mất, mất hút, tan biến, tiêu tan"}, {"en": "Hierarchy", "vi": "(n): hệ thống phân cấp, thứ bậc"}], "listening": [{"en": "Tire", "vi": "(n): lốp"}, {"en": "Headset", "vi": "(n): tai nghe có micro # Headphone"}, {"en": "Pump", "vi": "(n/v): bơm (hơi, xăng), máy bơm"}, {"en": "Tool belt", "vi": "(n): thắt lưng đựng dụng cụ"}, {"en": "Reach out", "vi": "(v): với tay ra, đưa tay về phía"}, {"en": "Blueprint", "vi": "(n): bản thiết kế, bản vẽ kỹ thuật"}, {"en": "Grocery cart", "vi": "(n): xe đẩy hàng"}, {"en": "Rearrange", "vi": "(v): sắp xếp lại"}, {"en": "Jewelry", "vi": "(n): trang sức"}, {"en": "Rack", "vi": "(n): giá, kệ"}, {"en": "Hanger", "vi": "(n): móc quần áo"}, {"en": "Patio", "vi": "(n): phần sân phía sau ngôi nhà được lát gạch/đá, thường không có mái che"}, {"en": "Porch", "vi": "(n): hiên"}, {"en": "Scatter", "vi": "(n,v): rải rác, rải, gieo"}, {"en": "Drawer", "vi": "(n): ngăn kéo"}, {"en": "Cabinet", "vi": "(n): tủ (khái quát hơn cupboard)"}, {"en": "Cupboard", "vi": "(n): tủ đựng quần áo, bát đĩa, đồ dùng, dùng trong nhà"}, {"en": "Shutter", "vi": "(n): cửa chớp"}, {"en": "Fence", "vi": "(n): hàng rào"}, {"en": "Escalator", "vi": "(n): thang cuốn"}, {"en": "Glance", "vi": "(n,v): liếc, nhìn qua"}, {"en": "Tie the laces", "vi": "buộc dây giày"}, {"en": "Kneel down", "vi": "(v): quỳ xuống"}, {"en": "Rug", "vi": "(n): thảm trải cho cả phòng"}, {"en": "Carpet", "vi": "(n): thảm như nhà anh bảo hoàng"}, {"en": "Mat", "vi": "(n): thảm nhỏ (chùi chân, đi picnic, chơi)"}, {"en": "Fountain", "vi": "(n): đài phun nước"}, {"en": "Diner", "vi": "(n): người dự bữa ăn, thực khách"}, {"en": "Trolley", "vi": "(n): xe đẩy hàng hóa, thức ăn (thường thấy trên tàu)"}, {"en": "Tray", "vi": "(n): khay, mâm"}, {"en": "Railing", "vi": "(n): lan can"}, {"en": "Doorknob", "vi": "(n): quả đấm cửa"}, {"en": "Fixture", "vi": "(n): vật cố định"}, {"en": "Bending over", "vi": "cúi gập xuống"}, {"en": "Crouch down", "vi": "Gập đầu gối, hạ thấp toàn thân xuống (Vd để buộc dây giày)"}, {"en": "Lawn", "vi": "(n): bãi cỏ"}, {"en": "Tile", "vi": "(n,v): đá lát, lát"}, {"en": "Puddle", "vi": "(n): vũng nước (mưa)"}, {"en": "Pavement", "vi": "(n): vỉa hè = sidewalk"}, {"en": "Stool", "vi": "(n): ghế đẩu"}, {"en": "Apron", "vi": "(n): tạp dề"}, {"en": "Row", "vi": "(v): chèo bằng mái chèo cố định"}, {"en": "Paddle", "vi": "(v): chèo bằng mái chèo cầm được"}, {"en": "Intersection", "vi": "(n): đường giao nhau"}, {"en": "Weed", "vi": "(n,v): cỏ dại, nhổ cỏ"}, {"en": "Utensil", "vi": "(n): đồ dùng sử dụng trong nhà"}, {"en": "Beverage", "vi": "(n): đồ uống (trừ nước lọc)"}, {"en": "Refrigerate", "vi": "(v): làm lạnh, ướp lạnh"}, {"en": "Mount", "vi": "(v): gắn vào, leo lên, cưỡi lên"}, {"en": "Pond", "vi": "(n): ao"}, {"en": "Pole", "vi": "(n): cột, sào"}, {"en": "Stroll", "vi": "(n,v): đi dạo, đi tản bộ"}, {"en": "Bulletin", "vi": "(n): bản tin"}, {"en": "Tablecloth", "vi": "(n): khăn trải bàn"}, {"en": "Mug", "vi": "(n): cốc > cup"}, {"en": "Trunk", "vi": "(n): thân cây"}, {"en": "Blind", "vi": "(n): rèm mành"}, {"en": "Podium", "vi": "(n): bục giảng"}, {"en": "Stapler", "vi": "(n): cái ghim, staple (v)"}, {"en": "Envelope", "vi": "(n): phong bì"}, {"en": "Scarf", "vi": "(n): khăn quàng cổ"}, {"en": "Drop by", "vi": "ghé qua, tạt qua"}, {"en": "Itinerary", "vi": "(n): lịch trình"}, {"en": "Stripe", "vi": "(n): sọc, vằn; striped (adj)"}, {"en": "Lawnmower", "vi": "(n): máy cắt cỏ"}, {"en": "Aisle", "vi": "(n): lối đi (giữa các hàng ghế, kệ)"}, {"en": "the press release", "vi": "(n): thông cáo báo chí"}, {"en": "Ferry", "vi": "(n/v): phà, đi lại = phà"}, {"en": "Treadmill", "vi": "(n): máy chạy bộ"}, {"en": "Brochure", "vi": "(n): quyển sách mỏng (thường để quảng cáo)"}, {"en": "Relief", "vi": "(adj): nhẹ nhõm"}, {"en": "Electrical outage", "vi": "mất điện"}, {"en": "Lawmaker", "vi": "(n): nhà lập pháp"}, {"en": "Commercial", "vi": "(adj/n): thuộc về thương mại / quảng cáo trên vô tuyến truyền hình"}, {"en": "Retrieve", "vi": "(v): lấy, truy xuất (dữ liệu); lấy lại, tìm lại được, phục hồi lại, khôi phục lại được"}, {"en": "Prohibit", "vi": "(v): cấm = forbid"}, {"en": "Sleeve", "vi": "(n): tay áo, ống tay áo"}, {"en": "Pedestrian", "vi": "(n): người đi bộ"}, {"en": "Dock", "vi": "(n,v): bến tàu, đậu (tàu, thuyền)"}, {"en": "Shore", "vi": "(n): bờ biển = coast = seashore = seaside; bờ sông, bờ hồ"}, {"en": "Cell phone", "vi": "(n): điện thoại di động (= mobile phone)"}, {"en": "Shrub", "vi": "(n): bụi cây (= bush)"}, {"en": "Prune", "vi": "(v): tỉa, cắt tỉa (= trim)"}, {"en": "Municipal", "vi": "(adj): thuộc thành phố, đô thị (= civic)"}, {"en": "Plugging a cord into a wall outlet", "vi": "cắm dây điện vào ổ cắm tường"}, {"en": "Auditorium", "vi": "(n): thính phòng"}, {"en": "Auditor", "vi": "(n): thính giả"}, {"en": "Stove", "vi": "(n): bếp"}]};
+    const STORAGE_KEY = "toeic_vocab_progress_v1";
+
+    const state = {
+      section: "reading",
+      mode: "practice",
+      queue: [],
+      index: 0,
+      hintCount: 0,
+      answered: false,
+      canAdvance: false, // unlocks "Từ tiếp theo" once the current card is solved or revealed
+    };
+
+    const el = {
+      prompt: document.getElementById("prompt"),
+      answer: document.getElementById("answer"),
+      hintBox: document.getElementById("hintBox"),
+      feedback: document.getElementById("feedback"),
+      progress: document.getElementById("progress"),
+      countReading: document.getElementById("countReading"),
+      countListening: document.getElementById("countListening"),
+      practicePanel: document.getElementById("practicePanel"),
+      practiceCard: document.getElementById("practiceCard"),
+      practiceToolbar: document.getElementById("practiceToolbar"),
+      sectionTabs: document.getElementById("sectionTabs"),
+      lexiconPanel: document.getElementById("lexiconPanel"),
+      lexiconBody: document.getElementById("lexiconBody"),
+      lexiconTitle: document.getElementById("lexiconTitle"),
+      lexiconCount: document.getElementById("lexiconCount"),
+      lexiconSearch: document.getElementById("lexiconSearch"),
+      lexiconEmpty: document.getElementById("lexiconEmpty"),
+      btnNext: document.getElementById("btnNext"),
+      addPanel: document.getElementById("addPanel"),
+    };
+
+    // ---------- persistence (just remembers which section you were on) ----------
+    function saveProgress() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          section: state.section,
+        }));
+      } catch (e) {
+        // storage unavailable (private mode, quota, etc.) - fail silently
+      }
+    }
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (!saved || typeof saved !== "object") return;
+        if (saved.section === "reading" || saved.section === "listening") {
+          state.section = saved.section;
+        }
+      } catch (e) {
+        // corrupted data or storage unavailable - ignore and start fresh
+      }
+    }
+
+    // ---------- helpers ----------
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderLexicon() {
+      const list = DATA[state.section] || [];
+      const q = normalize(el.lexiconSearch.value);
+      const filtered = !q
+        ? list
+        : list.filter((item) => {
+            const en = normalize(item.en);
+            const vi = normalize(item.vi);
+            return en.includes(q) || vi.includes(q) || item.en.toLowerCase().includes(q) || item.vi.toLowerCase().includes(q);
+          });
+
+      el.lexiconTitle.textContent =
+        state.section === "reading" ? "Từ vựng đọc hiểu" : "Từ vựng nghe";
+      el.lexiconCount.textContent = `${filtered.length} / ${list.length} từ`;
+
+      if (!filtered.length) {
+        el.lexiconBody.innerHTML = "";
+        el.lexiconEmpty.classList.add("show");
+        return;
+      }
+
+      el.lexiconEmpty.classList.remove("show");
+      el.lexiconBody.innerHTML = filtered
+        .map((item) => {
+          const num = list.indexOf(item) + 1;
+          return `<tr>
+            <td class="col-num">${num}</td>
+            <td class="col-en">${escapeHtml(item.en)}</td>
+            <td class="col-vi">${escapeHtml(item.vi)}${item.id ? ` <button type="button" class="del-word" data-id="${escapeHtml(item.id)}">Xóa</button>` : ""}</td>
+          </tr>`;
+        })
+        .join("");
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      const practice = mode === "practice";
+      const lexicon = mode === "lexicon";
+
+      el.practicePanel.classList.toggle("hidden", !practice);
+      el.practiceToolbar.classList.toggle("hidden", !practice);
+      el.lexiconPanel.classList.toggle("hidden", !lexicon);
+      el.addPanel.classList.toggle("hidden", mode !== "add");
+
+      [...document.getElementById("modeTabs").querySelectorAll("button")].forEach((b) =>
+        b.classList.toggle("active", b.dataset.mode === mode)
+      );
+
+      if (lexicon) renderLexicon();
+      if (mode === "add") renderAddPanel();
+    }
+
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function normalize(s) {
+      return String(s || "")
+        .toLowerCase()
+        .normalize("NFC")
+        .replace(/[’‘`´]/g, "'")
+        .replace(/[.,;:!?"“”()[\]{}]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function primaryAnswer(item) {
+      return item.en.trim();
+    }
+
+    function acceptedAnswers(item) {
+      return [item.en];
+    }
+
+    function isCorrect(user, item) {
+      const u = normalize(user);
+      if (!u) return false;
+      const accepts = acceptedAnswers(item).map(normalize);
+      if (accepts.some((a) => a === u)) return true;
+      // Ignore spaces/hyphen differences
+      const compact = (s) => s.replace(/[\s\-]/g, "");
+      return accepts.some((a) => compact(a) === compact(u));
+    }
+
+    function currentItem() {
+      return state.queue[state.index] || null;
+    }
+
+    function expectedForHint() {
+      const item = currentItem();
+      if (!item) return "";
+      return primaryAnswer(item);
+    }
+
+    function renderHint() {
+      const ans = expectedForHint();
+      if (!ans || state.hintCount <= 0) {
+        el.hintBox.textContent = "";
+        return;
+      }
+      const n = Math.min(state.hintCount, ans.length);
+      let out = "";
+      for (let i = 0; i < ans.length; i++) {
+        if (i < n) out += ans[i];
+        else out += ans[i] === " " ? " " : "_";
+      }
+      el.hintBox.textContent = out;
+    }
+
+    function setFeedback(type, html) {
+      el.feedback.className = "feedback show " + type;
+      el.feedback.innerHTML = html;
+    }
+
+    function clearFeedback() {
+      el.feedback.className = "feedback";
+      el.feedback.textContent = "";
+    }
+
+    // "Từ tiếp theo" stays disabled until the current card is solved
+    // (correct answer) or revealed (Xem đáp án).
+    function updateNextButtonState() {
+      el.btnNext.disabled = !state.canAdvance;
+    }
+
+    function fillCard() {
+      const item = currentItem();
+      clearFeedback();
+      state.hintCount = 0;
+      state.answered = false;
+      state.canAdvance = false;
+      el.hintBox.textContent = "";
+      el.answer.value = "";
+
+      if (!item) {
+        el.prompt.textContent = "Không có từ nào.";
+        el.progress.textContent = "0 / 0";
+        updateNextButtonState();
+        return;
+      }
+
+      // e.g. "11 / 413" - position within the currently selected section
+      // (Đọc hiểu / Nghe), recalculated from the live queue length every
+      // time a card is shown so it always matches the section's word count.
+      const total = state.queue.length;
+      el.progress.textContent = `${state.index + 1} / ${total}`;
+      el.prompt.textContent = item.vi;
+      el.answer.placeholder = "Nhập từ tiếng Anh...";
+      updateNextButtonState();
+    }
+
+    // Fade/slide transition when moving between cards
+    function showCard({ animate = false } = {}) {
+      if (!animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        fillCard();
+        el.answer.focus();
+        return;
+      }
+      el.practiceCard.classList.add("card-transition");
+      window.setTimeout(() => {
+        fillCard();
+        el.practiceCard.classList.remove("card-transition");
+        el.answer.focus();
+      }, 160);
+    }
+
+    function rebuildQueue() {
+      const list = DATA[state.section] || [];
+      state.queue = shuffle(list);
+      state.index = 0;
+      showCard();
+    }
+
+    function nextCard() {
+      if (!state.queue.length) return;
+      if (!state.canAdvance) return;
+      state.index = (state.index + 1) % state.queue.length;
+      showCard({ animate: true });
+    }
+
+    document.getElementById("modeTabs").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-mode]");
+      if (!btn) return;
+      if (btn.dataset.mode === "practice" && state.mode !== "practice") {
+        setMode("practice");
+        rebuildQueue();
+        return;
+      }
+      setMode(btn.dataset.mode);
+    });
+
+    document.getElementById("sectionTabs").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-section]");
+      if (!btn) return;
+      state.section = btn.dataset.section;
+      saveProgress();
+      [...document.getElementById("sectionTabs").querySelectorAll("button")].forEach((b) =>
+        b.classList.toggle("active", b === btn)
+      );
+      if (state.mode === "practice") rebuildQueue();
+      else if (state.mode === "lexicon") renderLexicon();
+      else if (state.mode === "add") updateAddLabel();
+    });
+
+    el.lexiconSearch.addEventListener("input", () => renderLexicon());
+
+    document.getElementById("btnShuffle").addEventListener("click", () => rebuildQueue());
+
+    document.getElementById("btnHint").addEventListener("click", () => {
+      const ans = expectedForHint();
+      if (!ans) return;
+      if (state.hintCount < ans.length) {
+        state.hintCount += 1;
+        renderHint();
+        // Prefill revealed prefix into input to help typing
+        el.answer.value = ans.slice(0, state.hintCount);
+        el.answer.focus();
+        try {
+          el.answer.setSelectionRange(el.answer.value.length, el.answer.value.length);
+        } catch (_) {}
+      } else {
+        setFeedback("info", "Đã hiện hết các ký tự gợi ý.");
+      }
+    });
+
+    document.getElementById("btnCheck").addEventListener("click", () => {
+      const item = currentItem();
+      if (!item) return;
+      const user = el.answer.value;
+      if (!user.trim()) {
+        setFeedback("info", "Hãy nhập đáp án trước.");
+        return;
+      }
+      if (isCorrect(user, item)) {
+        state.answered = true;
+        state.canAdvance = true;
+        setFeedback(
+          "ok",
+          `Đúng!<br><small>EN: <b>${escapeHtml(item.en)}</b><br>VI: <b>${escapeHtml(item.vi)}</b></small>`
+        );
+        updateNextButtonState();
+      } else {
+        state.answered = true;
+        setFeedback("bad", "Chưa đúng. Thử lại, dùng gợi ý, hoặc xem đáp án.");
+        // canAdvance stays false here - must get it right or reveal the
+        // answer before moving on.
+        updateNextButtonState();
+      }
+    });
+
+    document.getElementById("btnShow").addEventListener("click", () => {
+      const item = currentItem();
+      if (!item) return;
+      state.answered = true;
+      state.hintCount = expectedForHint().length;
+      renderHint();
+      el.answer.value = primaryAnswer(item);
+      setFeedback(
+        "info",
+        `Đáp án:<br><small>EN: <b>${escapeHtml(item.en)}</b><br>VI: <b>${escapeHtml(item.vi)}</b></small>`
+      );
+      // Seeing the answer also counts as "done" for this card, so the
+      // user isn't stuck unable to move on.
+      state.canAdvance = true;
+      updateNextButtonState();
+    });
+
+    document.getElementById("btnNext").addEventListener("click", () => nextCard());
+
+    el.answer.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (state.answered && el.feedback.classList.contains("ok")) nextCard();
+        else document.getElementById("btnCheck").click();
+      }
+    });
+
+    // Phím tắt: Tab = Gợi ý
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+      const t = e.target;
+      const isOtherField = t && t !== el.answer && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT");
+      if (isOtherField) return; // giữ Tab bình thường ở ô tìm kiếm...
+      if (!el.answer || el.answer.offsetParent === null) return; // chỉ khi đang ở màn luyện tập
+      e.preventDefault();
+      document.getElementById("btnHint").click();
+    });
+
+    // ---------- tài khoản + từ riêng (lưu trên máy chủ) ----------
+    const API = "/api";
+    const SESSION_KEY = "toeic_session_v2";
+    const BASE = { reading: DATA.reading.slice(), listening: DATA.listening.slice() };
+    const custom = { reading: [], listening: [] };
+    const session = { token: "", username: "" };
+    let authMode = "login";
+
+    const ui = {
+      accountBar: document.getElementById("accountBar"),
+      authBox: document.getElementById("authBox"),
+      addBox: document.getElementById("addBox"),
+      authTabs: document.getElementById("authTabs"),
+      authTitle: document.getElementById("authTitle"),
+      authForm: document.getElementById("authForm"),
+      authUser: document.getElementById("authUser"),
+      authPass: document.getElementById("authPass"),
+      authPass2: document.getElementById("authPass2"),
+      authPassLabel: document.getElementById("authPassLabel"),
+      authPass2Label: document.getElementById("authPass2Label"),
+      btnAuth: document.getElementById("btnAuth"),
+      authMsg: document.getElementById("authMsg"),
+      addForm: document.getElementById("addForm"),
+      addEn: document.getElementById("addEn"),
+      addVi: document.getElementById("addVi"),
+      addMsg: document.getElementById("addMsg"),
+      btnAdd: document.getElementById("btnAdd"),
+      addSectionLabel: document.getElementById("addSectionLabel"),
+    };
+
+    const NET_ERR = "Không kết nối được máy chủ. Tính năng tài khoản chỉ chạy khi đã deploy lên Netlify.";
+
+    function loadSession() {
+      try {
+        const s = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+        if (s && typeof s.token === "string" && typeof s.username === "string") {
+          session.token = s.token;
+          session.username = s.username;
+        }
+      } catch (e) {}
+    }
+    function saveSession() {
+      try { localStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (e) {}
+    }
+    function clearSession() {
+      session.token = "";
+      session.username = "";
+      try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
+    }
+    const loggedIn = () => !!session.token;
+
+    async function api(path, { method = "GET", body } = {}) {
+      const headers = {};
+      if (body) headers["content-type"] = "application/json";
+      if (session.token) headers.authorization = "Bearer " + session.token;
+      const res = await fetch(API + path, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : undefined,
+        cache: "no-store",
+      });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok, status: res.status, data };
+    }
+
+    function rebuildData() {
+      DATA.reading = BASE.reading.concat(custom.reading);
+      DATA.listening = BASE.listening.concat(custom.listening);
+      el.countReading.textContent = DATA.reading.length;
+      el.countListening.textContent = DATA.listening.length;
+    }
+
+    function setMsg(box, type, text) {
+      box.className = "feedback show " + type;
+      box.textContent = text;
+    }
+    function clearMsg(box) {
+      box.className = "feedback";
+      box.textContent = "";
+    }
+
+    function renderAccountBar() {
+      ui.accountBar.innerHTML = loggedIn()
+        ? `<span>Xin chào, <b>${escapeHtml(session.username)}</b></span><button type="button" data-act="logout">Đăng xuất</button>`
+        : `<span>Chưa đăng nhập</span><button type="button" data-act="login">Đăng nhập / Đăng ký</button>`;
+    }
+
+    function updateAddLabel() {
+      ui.addSectionLabel.textContent = state.section === "reading" ? "Đọc hiểu" : "Nghe";
+    }
+
+    function renderAddPanel() {
+      const inn = loggedIn();
+      ui.authBox.classList.toggle("hidden", inn);
+      ui.addBox.classList.toggle("hidden", !inn);
+      if (inn) updateAddLabel();
+      else setAuthMode(authMode);
+    }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      const titles = { login: "Đăng nhập", register: "Tạo tài khoản", reset: "Quên mật khẩu" };
+      const btns = { login: "Đăng nhập", register: "Tạo tài khoản", reset: "Đổi mật khẩu" };
+      ui.authTitle.textContent = titles[mode];
+      ui.btnAuth.textContent = btns[mode];
+      const needConfirm = mode !== "login";
+      ui.authPassLabel.textContent = mode === "reset" ? "Mật khẩu mới" : "Mật khẩu";
+      ui.authPass2Label.textContent = mode === "reset" ? "Nhập lại mật khẩu mới" : "Nhập lại mật khẩu";
+      ui.authPass2Label.classList.toggle("hidden", !needConfirm);
+      ui.authPass2.classList.toggle("hidden", !needConfirm);
+      ui.authPass.autocomplete = mode === "login" ? "current-password" : "new-password";
+      [...ui.authTabs.querySelectorAll("button")].forEach((b) =>
+        b.classList.toggle("active", b.dataset.auth === mode)
+      );
+      clearMsg(ui.authMsg);
+    }
+
+    function resetCustomData() {
+      custom.reading = [];
+      custom.listening = [];
+      rebuildData();
+    }
+
+    function refreshAfterDataChange() {
+      if (state.mode === "practice") rebuildQueue();
+      else if (state.mode === "lexicon") renderLexicon();
+    }
+
+    function logout() {
+      clearSession();
+      resetCustomData();
+      renderAccountBar();
+      if (state.mode === "add") renderAddPanel();
+      else refreshAfterDataChange();
+    }
+
+    async function loadCustom() {
+      if (!loggedIn()) return;
+      try {
+        const r = await api("/words");
+        if (r.status === 401) { logout(); return; }
+        if (!r.ok) return;
+        custom.reading = Array.isArray(r.data.reading) ? r.data.reading : [];
+        custom.listening = Array.isArray(r.data.listening) ? r.data.listening : [];
+        rebuildData();
+        const hasCustom = custom.reading.length + custom.listening.length > 0;
+        const untouched = state.mode === "practice" && state.index === 0 && !state.answered &&
+          !el.answer.value && state.hintCount === 0;
+        if (hasCustom && untouched) rebuildQueue();
+        else if (state.mode === "lexicon") renderLexicon();
+      } catch (e) {
+        // không có máy chủ: vẫn dùng bộ từ gốc
+      }
+    }
+
+    async function onLoggedIn(data) {
+      session.token = data.token;
+      session.username = data.username;
+      saveSession();
+      renderAccountBar();
+      ui.authPass.value = "";
+      ui.authPass2.value = "";
+      renderAddPanel();
+      await loadCustom();
+    }
+
+    // --- các nút trên thanh tài khoản ---
+    ui.accountBar.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-act]");
+      if (!b) return;
+      if (b.dataset.act === "logout") logout();
+      else if (b.dataset.act === "login") setMode("add");
+    });
+
+    ui.authTabs.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-auth]");
+      if (b) setAuthMode(b.dataset.auth);
+    });
+
+    // --- đăng nhập / đăng ký / quên mật khẩu ---
+    ui.authForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (ui.btnAuth.disabled) return;
+      const username = ui.authUser.value.trim();
+      const pass = ui.authPass.value;
+      const pass2 = ui.authPass2.value;
+      if (!username || !pass) return setMsg(ui.authMsg, "bad", "Hãy nhập tên tài khoản và mật khẩu.");
+      if (authMode !== "login") {
+        if (pass.length < 6) return setMsg(ui.authMsg, "bad", "Mật khẩu cần ít nhất 6 ký tự.");
+        if (pass !== pass2) return setMsg(ui.authMsg, "bad", "Hai lần nhập mật khẩu chưa giống nhau.");
+      }
+      ui.btnAuth.disabled = true;
+      setMsg(ui.authMsg, "info", "Đang xử lý...");
+      try {
+        if (authMode === "reset") {
+          const r = await api("/reset", { method: "POST", body: { username, newPassword: pass } });
+          if (r.ok) {
+            const name = username;
+            setAuthMode("login");
+            ui.authUser.value = name;
+            ui.authPass.value = "";
+            ui.authPass2.value = "";
+            setMsg(ui.authMsg, "ok", "Đã đổi mật khẩu. Hãy đăng nhập bằng mật khẩu mới.");
+          } else {
+            setMsg(ui.authMsg, "bad", r.data.error || "Không đổi được mật khẩu.");
+          }
+        } else {
+          const path = authMode === "register" ? "/register" : "/login";
+          const r = await api(path, { method: "POST", body: { username, password: pass } });
+          if (r.ok && r.data.token) await onLoggedIn(r.data);
+          else setMsg(ui.authMsg, "bad", r.data.error || "Không thực hiện được, thử lại sau.");
+        }
+      } catch (err) {
+        setMsg(ui.authMsg, "bad", NET_ERR);
+      } finally {
+        ui.btnAuth.disabled = false;
+      }
+    });
+
+    // --- thêm từ ---
+    ui.addForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (ui.btnAdd.disabled) return;
+      const section = state.section;
+      const en = ui.addEn.value.trim();
+      const vi = ui.addVi.value.trim();
+      if (!en || !vi) return setMsg(ui.addMsg, "bad", "Hãy nhập cả từ tiếng Anh và nghĩa.");
+      if ((DATA[section] || []).some((w) => normalize(w.en) === normalize(en))) {
+        return setMsg(ui.addMsg, "bad", "Từ này đã có trong mục này rồi.");
+      }
+      ui.btnAdd.disabled = true;
+      setMsg(ui.addMsg, "info", "Đang lưu...");
+      try {
+        const r = await api("/words", { method: "POST", body: { section, en, vi } });
+        if (r.status === 201 && r.data.item) {
+          custom[section].push(r.data.item);
+          rebuildData();
+          ui.addEn.value = "";
+          ui.addVi.value = "";
+          setMsg(ui.addMsg, "ok", `Đã thêm "${en}". Từ mới sẽ xuất hiện khi bạn quay lại Luyện tập.`);
+          ui.addEn.focus();
+        } else if (r.status === 401) {
+          logout();
+          setMsg(ui.authMsg, "bad", "Phiên đăng nhập đã hết hạn, hãy đăng nhập lại.");
+        } else {
+          setMsg(ui.addMsg, "bad", r.data.error || "Không lưu được, thử lại sau.");
+        }
+      } catch (err) {
+        setMsg(ui.addMsg, "bad", NET_ERR);
+      } finally {
+        ui.btnAdd.disabled = false;
+      }
+    });
+
+    // --- xóa từ (chỉ từ của chính mình) ---
+    el.lexiconBody.addEventListener("click", async (e) => {
+      const btn = e.target.closest(".del-word");
+      if (!btn) return;
+      if (!window.confirm("Xóa từ này?")) return;
+      const id = btn.dataset.id;
+      try {
+        const r = await api(`/words?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+        if (r.ok) {
+          custom.reading = custom.reading.filter((w) => w.id !== id);
+          custom.listening = custom.listening.filter((w) => w.id !== id);
+          rebuildData();
+          renderLexicon();
+        } else if (r.status === 401) {
+          logout();
+          window.alert("Phiên đăng nhập đã hết hạn, hãy đăng nhập lại.");
+        } else {
+          window.alert(r.data.error || "Không xóa được, thử lại sau.");
+        }
+      } catch (err) {
+        window.alert("Không kết nối được máy chủ.");
+      }
+    });
+
+    // init
+    loadProgress();
+    el.countReading.textContent = DATA.reading.length;
+    el.countListening.textContent = DATA.listening.length;
+    [...document.getElementById("sectionTabs").querySelectorAll("button")].forEach((b) =>
+      b.classList.toggle("active", b.dataset.section === state.section)
+    );
+    rebuildQueue();
+    loadSession();
+    renderAccountBar();
+    loadCustom();
+  </script>
+</body>
+</html>
