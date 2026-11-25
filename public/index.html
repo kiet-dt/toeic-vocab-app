@@ -437,10 +437,9 @@
 
       .vocab-table {
         width: 100%;
-        /* vừa khít màn hình điện thoại; cột nghĩa tự xuống dòng khi dài,
-           nên nút Xóa luôn nhìn thấy mà không cần vuốt ngang */
-        min-width: 0;
-        table-layout: auto;
+        /* rộng hơn màn hình điện thoại một chút để vuốt ngang được;
+           cột nghĩa vẫn tự xuống dòng khi dài */
+        min-width: 40rem;
       }
 
       .vocab-table .col-num,
@@ -518,17 +517,11 @@
       border-radius: 14px;
     }
     /* nút Xóa nhỏ gọn: không làm phình chiều cao hàng */
-    .vocab-table .col-del {
-      width: 1%;
-      white-space: nowrap;
-      text-align: right;
-      padding-left: 0.2rem;
-    }
     .vocab-table .del-word {
       display: inline-block;
       min-height: 0;
       height: auto;
-      margin: 0;
+      margin: 0 0 0 0.45rem;
       padding: 0 0.5rem;
       font-size: 0.7rem;
       line-height: 1.5;
@@ -625,7 +618,6 @@
                 <th class="col-num">#</th>
                 <th class="col-en">English</th>
                 <th class="col-vi">Nghĩa</th>
-                <th class="col-del" id="lexiconDelTh"></th>
               </tr>
             </thead>
             <tbody id="lexiconBody"></tbody>
@@ -779,17 +771,13 @@
       }
 
       el.lexiconEmpty.classList.remove("show");
-      // chỉ hiện cột Xóa khi mục này có từ tự thêm
-      const hasDel = list.some((w) => w.id);
-      document.getElementById("lexiconDelTh").style.display = hasDel ? "" : "none";
       el.lexiconBody.innerHTML = filtered
         .map((item) => {
           const num = list.indexOf(item) + 1;
           return `<tr>
             <td class="col-num">${num}</td>
             <td class="col-en">${escapeHtml(item.en)}</td>
-            <td class="col-vi">${escapeHtml(item.vi)}</td>${hasDel ? `
-            <td class="col-del">${item.id ? `<button type="button" class="del-word" data-id="${escapeHtml(item.id)}">Xóa</button>` : ""}</td>` : ""}
+            <td class="col-vi">${escapeHtml(item.vi)}${item.id ? ` <button type="button" class="del-word" data-id="${escapeHtml(item.id)}">Xóa</button>` : ""}</td>
           </tr>`;
         })
         .join("");
