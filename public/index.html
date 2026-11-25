@@ -430,7 +430,11 @@
 
       .vocab-table .col-num,
       .vocab-table th.col-num {
-        display: none;
+        width: 2rem;
+        min-width: 2rem;
+        padding-left: 0.5rem;
+        padding-right: 0.25rem;
+        font-size: 0.82rem;
       }
 
       .vocab-table .col-en {
@@ -509,9 +513,10 @@
     }
     .del-word {
       display: inline-flex;
-      min-height: 0;
+      min-height: 36px;
+      margin-top: 0.35rem;
       margin-left: 0.4rem;
-      padding: 0.1rem 0.55rem;
+      padding: 0.2rem 0.85rem;
       font-size: 0.75rem;
       color: var(--bad);
       border-color: #efc4be;
@@ -537,7 +542,12 @@
       gap: 0.4rem;
       margin-bottom: 0.9rem;
     }
-    .auth-tabs button { font-size: 0.85rem; padding: 0.5rem 0.3rem; }
+    .auth-tabs button { font-size: 0.82rem; padding: 0.5rem 0.25rem; line-height: 1.25; }
+    @media (max-width: 380px) {
+      .auth-tabs { gap: 0.3rem; }
+      .auth-tabs button { font-size: 0.74rem; padding: 0.5rem 0.15rem; }
+      .account-bar { font-size: 0.82rem; }
+    }
     .auth-note { color: var(--muted); font-size: 0.85rem; line-height: 1.45; margin: 0 0 0.6rem; }
     .hidden { display: none !important; }
   </style>
