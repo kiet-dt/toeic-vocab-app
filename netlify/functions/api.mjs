@@ -11,7 +11,7 @@ import { promisify } from "node:util";
 
 const scryptAsync = promisify(scrypt);
 
-const SECTIONS = ["reading", "listening"];
+const SECTIONS = ["reading", "listening", "mine"];
 const USER_RE = /^[a-z0-9._-]{3,30}$/;
 const MAX_EN = 100;
 const MAX_VI = 500;
@@ -102,6 +102,7 @@ async function readWords(store, username) {
   return {
     reading: Array.isArray(d.reading) ? d.reading : [],
     listening: Array.isArray(d.listening) ? d.listening : [],
+    mine: Array.isArray(d.mine) ? d.mine : [],
   };
 }
 
@@ -182,7 +183,7 @@ export default async (req) => {
       if (vi.length > MAX_VI) return json({ error: `Nghĩa tối đa ${MAX_VI} ký tự.` }, 400);
 
       const all = await readWords(store, user.username);
-      if (all.reading.length + all.listening.length >= MAX_WORDS) {
+      if (all.reading.length + all.listening.length + all.mine.length >= MAX_WORDS) {
         return json({ error: `Mỗi tài khoản tối đa ${MAX_WORDS} từ tự thêm.` }, 400);
       }
       if (all[section].some((w) => normWord(w.en) === normWord(en))) {
