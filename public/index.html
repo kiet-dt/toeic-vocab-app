@@ -520,17 +520,21 @@
     }
     /* nút Xóa nhỏ gọn: không làm phình chiều cao hàng */
     .vocab-table .del-word {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       min-height: 0;
-      height: auto;
+      height: 1.4em;
       margin: 0 0 0 0.45rem;
-      padding: 0 0.5rem;
-      font-size: 0.7rem;
-      line-height: 1.5;
+      padding: 0 0.55rem;
+      font-size: 0.72rem;
+      line-height: 1;
       color: var(--bad);
       border-color: #efc4be;
       border-radius: 999px;
-      vertical-align: baseline;
+      vertical-align: middle;
+      position: relative;
+      top: -0.06em;
     }
     .vocab-table .del-word:hover { background: #fdf0ee; border-color: var(--bad); }
 
