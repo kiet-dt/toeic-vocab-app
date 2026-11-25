@@ -424,9 +424,7 @@
       }
 
       .vocab-table {
-        width: 100%;
-        min-width: 0;
-        table-layout: fixed; /* bảng vừa khít màn hình, chữ dài tự xuống dòng */
+        width: 100%; /* như bản máy tính: bảng tự giãn theo nội dung, khung bên ngoài cuộn ngang/dọc */
       }
 
       .vocab-table .col-num,
@@ -438,19 +436,8 @@
         font-size: 0.82rem;
       }
 
-      .vocab-table .col-en {
-        width: 38%;
-        min-width: 0;
-        white-space: normal;
-        overflow-wrap: break-word;
-        font-size: 0.88rem;
-      }
-
+      .vocab-table .col-en,
       .vocab-table .col-vi {
-        min-width: 0;
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-break: normal;
         font-size: 0.88rem;
       }
 
